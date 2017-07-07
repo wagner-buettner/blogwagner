@@ -4,7 +4,7 @@
       "packageName": "com.binside",
       "nativeLanguage": "pt-br"
     },
-    "jhipsterVersion": "4.5.6",
+    "jhipsterVersion": "4.6.0",
     "baseName": "blogwagner",
     "packageName": "com.binside",
     "packageFolder": "com/binside",
@@ -22,7 +22,7 @@
     "buildTool": "maven",
     "enableSocialSignIn": false,
     "jwtSecretKey": "9879f2adfc7e3a71c421015c3941635ed7cc7d1a",
-    "clientFramework": "angular2",
+    "clientFramework": "angularX",
     "useSass": true,
     "clientPackageManager": "yarn",
     "applicationType": "monolith",

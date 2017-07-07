@@ -1,5 +1,5 @@
-var dataCacheName = '"Blogwagner-v1';
-var cacheName = '"Blogwagner-1';
+var dataCacheName = 'Blogwagner-v1';
+var cacheName = 'Blogwagner-1';
 var filesToCache = [
     '/',
     '/index.html'
