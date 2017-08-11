@@ -44,7 +44,6 @@ export class TagDeleteDialogComponent {
 })
 export class TagDeletePopupComponent implements OnInit, OnDestroy {
 
-    modalRef: NgbModalRef;
     routeSub: any;
 
     constructor(
@@ -54,8 +53,8 @@ export class TagDeletePopupComponent implements OnInit, OnDestroy {
 
     ngOnInit() {
         this.routeSub = this.route.params.subscribe((params) => {
-            this.modalRef = this.tagPopupService
-                .open(TagDeleteDialogComponent, params['id']);
+            this.tagPopupService
+                .open(TagDeleteDialogComponent as Component, params['id']);
         });
     }
 

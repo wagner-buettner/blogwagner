@@ -9,8 +9,6 @@ import { EntryDetailComponent } from './entry-detail.component';
 import { EntryPopupComponent } from './entry-dialog.component';
 import { EntryDeletePopupComponent } from './entry-delete-dialog.component';
 
-import { Principal } from '../../shared';
-
 export const entryRoute: Routes = [
     {
         path: 'entry',

@@ -19,7 +19,6 @@ import { ResponseWrapper } from '../../shared';
 export class TagDialogComponent implements OnInit {
 
     tag: Tag;
-    authorities: any[];
     isSaving: boolean;
 
     entries: Entry[];
@@ -35,7 +34,6 @@ export class TagDialogComponent implements OnInit {
 
     ngOnInit() {
         this.isSaving = false;
-        this.authorities = ['ROLE_USER', 'ROLE_ADMIN'];
         this.entryService.query()
             .subscribe((res: ResponseWrapper) => { this.entries = res.json; }, (res: ResponseWrapper) => this.onError(res.json));
     }
@@ -102,7 +100,6 @@ export class TagDialogComponent implements OnInit {
 })
 export class TagPopupComponent implements OnInit, OnDestroy {
 
-    modalRef: NgbModalRef;
     routeSub: any;
 
     constructor(
@@ -113,11 +110,11 @@ export class TagPopupComponent implements OnInit, OnDestroy {
     ngOnInit() {
         this.routeSub = this.route.params.subscribe((params) => {
             if ( params['id'] ) {
-                this.modalRef = this.tagPopupService
-                    .open(TagDialogComponent, params['id']);
+                this.tagPopupService
+                    .open(TagDialogComponent as Component, params['id']);
             } else {
-                this.modalRef = this.tagPopupService
-                    .open(TagDialogComponent);
+                this.tagPopupService
+                    .open(TagDialogComponent as Component);
             }
         });
     }
