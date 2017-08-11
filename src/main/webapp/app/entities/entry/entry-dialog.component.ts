@@ -20,7 +20,6 @@ import { ResponseWrapper } from '../../shared';
 export class EntryDialogComponent implements OnInit {
 
     entry: Entry;
-    authorities: any[];
     isSaving: boolean;
 
     blogs: Blog[];
@@ -40,7 +39,6 @@ export class EntryDialogComponent implements OnInit {
 
     ngOnInit() {
         this.isSaving = false;
-        this.authorities = ['ROLE_USER', 'ROLE_ADMIN'];
         this.blogService.query()
             .subscribe((res: ResponseWrapper) => { this.blogs = res.json; }, (res: ResponseWrapper) => this.onError(res.json));
         this.tagService.query()
@@ -134,7 +132,6 @@ export class EntryDialogComponent implements OnInit {
 })
 export class EntryPopupComponent implements OnInit, OnDestroy {
 
-    modalRef: NgbModalRef;
     routeSub: any;
 
     constructor(
@@ -145,11 +142,11 @@ export class EntryPopupComponent implements OnInit, OnDestroy {
     ngOnInit() {
         this.routeSub = this.route.params.subscribe((params) => {
             if ( params['id'] ) {
-                this.modalRef = this.entryPopupService
-                    .open(EntryDialogComponent, params['id']);
+                this.entryPopupService
+                    .open(EntryDialogComponent as Component, params['id']);
             } else {
-                this.modalRef = this.entryPopupService
-                    .open(EntryDialogComponent);
+                this.entryPopupService
+                    .open(EntryDialogComponent as Component);
             }
         });
     }
