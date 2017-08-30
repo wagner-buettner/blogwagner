@@ -29,7 +29,7 @@ export class EntryPopupService {
             if (id) {
                 this.entryService.find(id).subscribe((entry) => {
                     entry.date = this.datePipe
-                        .transform(entry.date, 'yyyy-MM-ddThh:mm');
+                        .transform(entry.date, 'yyyy-MM-ddTHH:mm:ss');
                     this.ngbModalRef = this.entryModalRef(component, entry);
                     resolve(this.ngbModalRef);
                 });

@@ -30,7 +30,6 @@ public class BlogResource {
     private static final String ENTITY_NAME = "blog";
 
     private final BlogRepository blogRepository;
-
     public BlogResource(BlogRepository blogRepository) {
         this.blogRepository = blogRepository;
     }
@@ -87,7 +86,7 @@ public class BlogResource {
     public List<Blog> getAllBlogs() {
         log.debug("REST request to get all Blogs");
         return blogRepository.findAll();
-    }
+        }
 
     /**
      * GET  /blogs/:id : get the "id" blog.
