@@ -65,7 +65,7 @@ public class BlogResourceIntTest {
     @Before
     public void setup() {
         MockitoAnnotations.initMocks(this);
-        BlogResource blogResource = new BlogResource(blogRepository);
+        final BlogResource blogResource = new BlogResource(blogRepository);
         this.restBlogMockMvc = MockMvcBuilders.standaloneSetup(blogResource)
             .setCustomArgumentResolvers(pageableArgumentResolver)
             .setControllerAdvice(exceptionTranslator)
