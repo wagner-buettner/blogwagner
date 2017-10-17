@@ -1,6 +1,8 @@
 import { Injectable } from '@angular/core';
 import { Http, Response } from '@angular/http';
 import { Observable } from 'rxjs/Rx';
+import { SERVER_API_URL } from '../../app.constants';
+
 import { JhiDateUtils } from 'ng-jhipster';
 
 import { Entry } from './entry.model';
@@ -9,7 +11,7 @@ import { ResponseWrapper, createRequestOption } from '../../shared';
 @Injectable()
 export class EntryService {
 
-    private resourceUrl = 'api/entries';
+    private resourceUrl = SERVER_API_URL + 'api/entries';
 
     constructor(private http: Http, private dateUtils: JhiDateUtils) { }
 
@@ -17,8 +19,7 @@ export class EntryService {
         const copy = this.convert(entry);
         return this.http.post(this.resourceUrl, copy).map((res: Response) => {
             const jsonResponse = res.json();
-            this.convertItemFromServer(jsonResponse);
-            return jsonResponse;
+            return this.convertItemFromServer(jsonResponse);
         });
     }
 
@@ -26,16 +27,14 @@ export class EntryService {
         const copy = this.convert(entry);
         return this.http.put(this.resourceUrl, copy).map((res: Response) => {
             const jsonResponse = res.json();
-            this.convertItemFromServer(jsonResponse);
-            return jsonResponse;
+            return this.convertItemFromServer(jsonResponse);
         });
     }
 
     find(id: number): Observable<Entry> {
         return this.http.get(`${this.resourceUrl}/${id}`).map((res: Response) => {
             const jsonResponse = res.json();
-            this.convertItemFromServer(jsonResponse);
-            return jsonResponse;
+            return this.convertItemFromServer(jsonResponse);
         });
     }
 
@@ -51,17 +50,26 @@ export class EntryService {
 
     private convertResponse(res: Response): ResponseWrapper {
         const jsonResponse = res.json();
+        const result = [];
         for (let i = 0; i < jsonResponse.length; i++) {
-            this.convertItemFromServer(jsonResponse[i]);
+            result.push(this.convertItemFromServer(jsonResponse[i]));
         }
-        return new ResponseWrapper(res.headers, jsonResponse, res.status);
+        return new ResponseWrapper(res.headers, result, res.status);
     }
 
-    private convertItemFromServer(entity: any) {
+    /**
+     * Convert a returned JSON object to Entry.
+     */
+    private convertItemFromServer(json: any): Entry {
+        const entity: Entry = Object.assign(new Entry(), json);
         entity.date = this.dateUtils
-            .convertDateTimeFromServer(entity.date);
+            .convertDateTimeFromServer(json.date);
+        return entity;
     }
 
+    /**
+     * Convert a Entry to a JSON which can be sent to the server.
+     */
     private convert(entry: Entry): Entry {
         const copy: Entry = Object.assign({}, entry);
 

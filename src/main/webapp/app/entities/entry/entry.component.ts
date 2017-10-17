@@ -27,7 +27,7 @@ export class EntryComponent implements OnInit, OnDestroy {
 
     constructor(
         private entryService: EntryService,
-        private alertService: JhiAlertService,
+        private jhiAlertService: JhiAlertService,
         private dataUtils: JhiDataUtils,
         private eventManager: JhiEventManager,
         private parseLinks: JhiParseLinks,
@@ -108,6 +108,6 @@ export class EntryComponent implements OnInit, OnDestroy {
     }
 
     private onError(error) {
-        this.alertService.error(error.message, null, null);
+        this.jhiAlertService.error(error.message, null, null);
     }
 }

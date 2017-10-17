@@ -25,7 +25,7 @@ export class BlogDialogComponent implements OnInit {
 
     constructor(
         public activeModal: NgbActiveModal,
-        private alertService: JhiAlertService,
+        private jhiAlertService: JhiAlertService,
         private blogService: BlogService,
         private userService: UserService,
         private eventManager: JhiEventManager
@@ -55,7 +55,7 @@ export class BlogDialogComponent implements OnInit {
 
     private subscribeToSaveResponse(result: Observable<Blog>) {
         result.subscribe((res: Blog) =>
-            this.onSaveSuccess(res), (res: Response) => this.onSaveError(res));
+            this.onSaveSuccess(res), (res: Response) => this.onSaveError());
     }
 
     private onSaveSuccess(result: Blog) {
@@ -64,18 +64,12 @@ export class BlogDialogComponent implements OnInit {
         this.activeModal.dismiss(result);
     }
 
-    private onSaveError(error) {
-        try {
-            error.json();
-        } catch (exception) {
-            error.message = error.text();
-        }
+    private onSaveError() {
         this.isSaving = false;
-        this.onError(error);
     }
 
-    private onError(error) {
-        this.alertService.error(error.message, null, null);
+    private onError(error: any) {
+        this.jhiAlertService.error(error.message, null, null);
     }
 
     trackUserById(index: number, item: User) {

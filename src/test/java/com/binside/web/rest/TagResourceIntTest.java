@@ -118,7 +118,7 @@ public class TagResourceIntTest {
             .content(TestUtil.convertObjectToJsonBytes(tag)))
             .andExpect(status().isBadRequest());
 
-        // Validate the Alice in the database
+        // Validate the Tag in the database
         List<Tag> tagList = tagRepository.findAll();
         assertThat(tagList).hasSize(databaseSizeBeforeCreate);
     }
