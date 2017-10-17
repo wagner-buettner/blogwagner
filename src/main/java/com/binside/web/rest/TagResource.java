@@ -36,6 +36,7 @@ public class TagResource {
     private static final String ENTITY_NAME = "tag";
 
     private final TagRepository tagRepository;
+
     public TagResource(TagRepository tagRepository) {
         this.tagRepository = tagRepository;
     }

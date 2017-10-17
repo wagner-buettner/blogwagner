@@ -1,4 +1,5 @@
 package com.binside.service;
+import com.binside.config.Constants;
 
 import com.binside.BlogwagnerApp;
 import com.binside.domain.User;
@@ -135,7 +136,7 @@ public class MailServiceIntTest {
     @Test
     public void testSendActivationEmail() throws Exception {
         User user = new User();
-        user.setLangKey("pt-br");
+        user.setLangKey(Constants.DEFAULT_LANGUAGE);
         user.setLogin("john");
         user.setEmail("john.doe@example.com");
         mailService.sendActivationEmail(user);
@@ -150,7 +151,7 @@ public class MailServiceIntTest {
     @Test
     public void testCreationEmail() throws Exception {
         User user = new User();
-        user.setLangKey("pt-br");
+        user.setLangKey(Constants.DEFAULT_LANGUAGE);
         user.setLogin("john");
         user.setEmail("john.doe@example.com");
         mailService.sendCreationEmail(user);
@@ -165,7 +166,7 @@ public class MailServiceIntTest {
     @Test
     public void testSendPasswordResetMail() throws Exception {
         User user = new User();
-        user.setLangKey("pt-br");
+        user.setLangKey(Constants.DEFAULT_LANGUAGE);
         user.setLogin("john");
         user.setEmail("john.doe@example.com");
         mailService.sendPasswordResetMail(user);

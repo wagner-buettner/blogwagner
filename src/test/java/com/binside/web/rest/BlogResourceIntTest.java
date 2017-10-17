@@ -123,7 +123,7 @@ public class BlogResourceIntTest {
             .content(TestUtil.convertObjectToJsonBytes(blog)))
             .andExpect(status().isBadRequest());
 
-        // Validate the Alice in the database
+        // Validate the Blog in the database
         List<Blog> blogList = blogRepository.findAll();
         assertThat(blogList).hasSize(databaseSizeBeforeCreate);
     }

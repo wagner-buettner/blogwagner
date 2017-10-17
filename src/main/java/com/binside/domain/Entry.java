@@ -49,7 +49,7 @@ public class Entry implements Serializable {
                inverseJoinColumns = @JoinColumn(name="tags_id", referencedColumnName="id"))
     private Set<Tag> tags = new HashSet<>();
 
-    // jhipster-needle-entity-add-field - Jhipster will add fields here, do not remove
+    // jhipster-needle-entity-add-field - JHipster will add fields here, do not remove
     public Long getId() {
         return id;
     }
@@ -134,7 +134,7 @@ public class Entry implements Serializable {
     public void setTags(Set<Tag> tags) {
         this.tags = tags;
     }
-    // jhipster-needle-entity-add-getters-setters - Jhipster will add getters and setters here, do not remove
+    // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here, do not remove
 
     @Override
     public boolean equals(Object o) {

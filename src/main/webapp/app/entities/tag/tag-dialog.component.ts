@@ -25,7 +25,7 @@ export class TagDialogComponent implements OnInit {
 
     constructor(
         public activeModal: NgbActiveModal,
-        private alertService: JhiAlertService,
+        private jhiAlertService: JhiAlertService,
         private tagService: TagService,
         private entryService: EntryService,
         private eventManager: JhiEventManager
@@ -55,7 +55,7 @@ export class TagDialogComponent implements OnInit {
 
     private subscribeToSaveResponse(result: Observable<Tag>) {
         result.subscribe((res: Tag) =>
-            this.onSaveSuccess(res), (res: Response) => this.onSaveError(res));
+            this.onSaveSuccess(res), (res: Response) => this.onSaveError());
     }
 
     private onSaveSuccess(result: Tag) {
@@ -64,18 +64,12 @@ export class TagDialogComponent implements OnInit {
         this.activeModal.dismiss(result);
     }
 
-    private onSaveError(error) {
-        try {
-            error.json();
-        } catch (exception) {
-            error.message = error.text();
-        }
+    private onSaveError() {
         this.isSaving = false;
-        this.onError(error);
     }
 
-    private onError(error) {
-        this.alertService.error(error.message, null, null);
+    private onError(error: any) {
+        this.jhiAlertService.error(error.message, null, null);
     }
 
     trackEntryById(index: number, item: Entry) {

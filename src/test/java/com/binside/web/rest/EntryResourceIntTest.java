@@ -134,7 +134,7 @@ public class EntryResourceIntTest {
             .content(TestUtil.convertObjectToJsonBytes(entry)))
             .andExpect(status().isBadRequest());
 
-        // Validate the Alice in the database
+        // Validate the Entry in the database
         List<Entry> entryList = entryRepository.findAll();
         assertThat(entryList).hasSize(databaseSizeBeforeCreate);
     }

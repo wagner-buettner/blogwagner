@@ -36,6 +36,7 @@ public class EntryResource {
     private static final String ENTITY_NAME = "entry";
 
     private final EntryRepository entryRepository;
+
     public EntryResource(EntryRepository entryRepository) {
         this.entryRepository = entryRepository;
     }

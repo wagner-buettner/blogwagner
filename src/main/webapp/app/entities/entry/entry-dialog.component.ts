@@ -29,7 +29,7 @@ export class EntryDialogComponent implements OnInit {
     constructor(
         public activeModal: NgbActiveModal,
         private dataUtils: JhiDataUtils,
-        private alertService: JhiAlertService,
+        private jhiAlertService: JhiAlertService,
         private entryService: EntryService,
         private blogService: BlogService,
         private tagService: TagService,
@@ -74,7 +74,7 @@ export class EntryDialogComponent implements OnInit {
 
     private subscribeToSaveResponse(result: Observable<Entry>) {
         result.subscribe((res: Entry) =>
-            this.onSaveSuccess(res), (res: Response) => this.onSaveError(res));
+            this.onSaveSuccess(res), (res: Response) => this.onSaveError());
     }
 
     private onSaveSuccess(result: Entry) {
@@ -83,18 +83,12 @@ export class EntryDialogComponent implements OnInit {
         this.activeModal.dismiss(result);
     }
 
-    private onSaveError(error) {
-        try {
-            error.json();
-        } catch (exception) {
-            error.message = error.text();
-        }
+    private onSaveError() {
         this.isSaving = false;
-        this.onError(error);
     }
 
-    private onError(error) {
-        this.alertService.error(error.message, null, null);
+    private onError(error: any) {
+        this.jhiAlertService.error(error.message, null, null);
     }
 
     trackBlogById(index: number, item: Blog) {
