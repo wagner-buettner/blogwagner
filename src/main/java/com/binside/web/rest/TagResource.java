@@ -4,6 +4,7 @@ import com.codahale.metrics.annotation.Timed;
 import com.binside.domain.Tag;
 
 import com.binside.repository.TagRepository;
+import com.binside.web.rest.errors.BadRequestAlertException;
 import com.binside.web.rest.util.HeaderUtil;
 import com.binside.web.rest.util.PaginationUtil;
 import io.swagger.annotations.ApiParam;
@@ -53,7 +54,7 @@ public class TagResource {
     public ResponseEntity<Tag> createTag(@Valid @RequestBody Tag tag) throws URISyntaxException {
         log.debug("REST request to save Tag : {}", tag);
         if (tag.getId() != null) {
-            return ResponseEntity.badRequest().headers(HeaderUtil.createFailureAlert(ENTITY_NAME, "idexists", "A new tag cannot already have an ID")).body(null);
+            throw new BadRequestAlertException("A new tag cannot already have an ID", ENTITY_NAME, "idexists");
         }
         Tag result = tagRepository.save(tag);
         return ResponseEntity.created(new URI("/api/tags/" + result.getId()))

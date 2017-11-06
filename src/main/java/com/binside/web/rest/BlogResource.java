@@ -4,6 +4,7 @@ import com.codahale.metrics.annotation.Timed;
 import com.binside.domain.Blog;
 
 import com.binside.repository.BlogRepository;
+import com.binside.web.rest.errors.BadRequestAlertException;
 import com.binside.web.rest.util.HeaderUtil;
 import io.github.jhipster.web.util.ResponseUtil;
 import org.slf4j.Logger;
@@ -47,7 +48,7 @@ public class BlogResource {
     public ResponseEntity<Blog> createBlog(@Valid @RequestBody Blog blog) throws URISyntaxException {
         log.debug("REST request to save Blog : {}", blog);
         if (blog.getId() != null) {
-            return ResponseEntity.badRequest().headers(HeaderUtil.createFailureAlert(ENTITY_NAME, "idexists", "A new blog cannot already have an ID")).body(null);
+            throw new BadRequestAlertException("A new blog cannot already have an ID", ENTITY_NAME, "idexists");
         }
         Blog result = blogRepository.save(blog);
         return ResponseEntity.created(new URI("/api/blogs/" + result.getId()))
