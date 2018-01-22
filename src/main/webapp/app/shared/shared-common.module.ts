@@ -1,5 +1,7 @@
 import { NgModule, LOCALE_ID } from '@angular/core';
 import { Title } from '@angular/platform-browser';
+import { registerLocaleData } from '@angular/common';
+import locale from '@angular/common/locales/pt';
 
 import {
     BlogwagnerSharedLibsModule,
@@ -23,7 +25,7 @@ import {
         Title,
         {
             provide: LOCALE_ID,
-            useValue: 'pt-br'
+            useValue: 'pt'
         },
     ],
     exports: [
@@ -33,4 +35,8 @@ import {
         JhiAlertErrorComponent
     ]
 })
-export class BlogwagnerSharedCommonModule {}
+export class BlogwagnerSharedCommonModule {
+    constructor() {
+        registerLocaleData(locale);
+    }
+}

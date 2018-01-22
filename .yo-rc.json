@@ -4,7 +4,7 @@
       "packageName": "com.binside",
       "nativeLanguage": "pt-br"
     },
-    "jhipsterVersion": "4.10.2",
+    "jhipsterVersion": "4.13.3",
     "baseName": "blogwagner",
     "packageName": "com.binside",
     "packageFolder": "com/binside",
@@ -38,6 +38,8 @@
       "en",
       "es"
     ],
-    "herokuAppName": "blogwagner"
+    "herokuAppName": "blogwagner",
+    "cacheProvider": "ehcache",
+    "enableHibernateCache": true
   }
 }

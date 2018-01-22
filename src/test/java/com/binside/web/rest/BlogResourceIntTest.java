@@ -213,6 +213,8 @@ public class BlogResourceIntTest {
 
         // Update the blog
         Blog updatedBlog = blogRepository.findOne(blog.getId());
+        // Disconnect from session so that the updates on updatedBlog are not directly saved in db
+        em.detach(updatedBlog);
         updatedBlog
             .name(UPDATED_NAME)
             .handle(UPDATED_HANDLE);

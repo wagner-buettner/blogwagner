@@ -244,6 +244,8 @@ public class EntryResourceIntTest {
 
         // Update the entry
         Entry updatedEntry = entryRepository.findOne(entry.getId());
+        // Disconnect from session so that the updates on updatedEntry are not directly saved in db
+        em.detach(updatedEntry);
         updatedEntry
             .title(UPDATED_TITLE)
             .content(UPDATED_CONTENT)

@@ -1,15 +1,11 @@
-import { browser, element, by, $ } from 'protractor';
+import { browser, element, by } from 'protractor';
 import { NavBarPage } from './../page-objects/jhi-page-objects';
-const path = require('path');
 
 describe('Blog e2e test', () => {
 
     let navBarPage: NavBarPage;
     let blogDialogPage: BlogDialogPage;
     let blogComponentsPage: BlogComponentsPage;
-    const fileToUpload = '../../../../main/webapp/content/images/logo-jhipster.png';
-    const absolutePath = path.resolve(__dirname, fileToUpload);
-    
 
     beforeAll(() => {
         browser.get('/');
@@ -22,14 +18,16 @@ describe('Blog e2e test', () => {
     it('should load Blogs', () => {
         navBarPage.goToEntity('blog');
         blogComponentsPage = new BlogComponentsPage();
-        expect(blogComponentsPage.getTitle()).toMatch(/blogwagnerApp.blog.home.title/);
+        expect(blogComponentsPage.getTitle())
+            .toMatch(/blogwagnerApp.blog.home.title/);
 
     });
 
     it('should load create Blog dialog', () => {
         blogComponentsPage.clickOnCreateButton();
         blogDialogPage = new BlogDialogPage();
-        expect(blogDialogPage.getModalTitle()).toMatch(/blogwagnerApp.blog.home.createOrEditLabel/);
+        expect(blogDialogPage.getModalTitle())
+            .toMatch(/blogwagnerApp.blog.home.createOrEditLabel/);
         blogDialogPage.close();
     });
 
@@ -42,7 +40,7 @@ describe('Blog e2e test', () => {
         blogDialogPage.userSelectLastOption();
         blogDialogPage.save();
         expect(blogDialogPage.getSaveButton().isPresent()).toBeFalsy();
-    }); 
+    });
 
     afterAll(() => {
         navBarPage.autoSignOut();
@@ -74,35 +72,35 @@ export class BlogDialogPage {
         return this.modalTitle.getAttribute('jhiTranslate');
     }
 
-    setNameInput = function (name) {
+    setNameInput = function(name) {
         this.nameInput.sendKeys(name);
     }
 
-    getNameInput = function () {
+    getNameInput = function() {
         return this.nameInput.getAttribute('value');
     }
 
-    setHandleInput = function (handle) {
+    setHandleInput = function(handle) {
         this.handleInput.sendKeys(handle);
     }
 
-    getHandleInput = function () {
+    getHandleInput = function() {
         return this.handleInput.getAttribute('value');
     }
 
-    userSelectLastOption = function () {
+    userSelectLastOption = function() {
         this.userSelect.all(by.tagName('option')).last().click();
     }
 
-    userSelectOption = function (option) {
+    userSelectOption = function(option) {
         this.userSelect.sendKeys(option);
     }
 
-    getUserSelect = function () {
+    getUserSelect = function() {
         return this.userSelect;
     }
 
-    getUserSelectedOption = function () {
+    getUserSelectedOption = function() {
         return this.userSelect.element(by.css('option:checked')).getText();
     }
 

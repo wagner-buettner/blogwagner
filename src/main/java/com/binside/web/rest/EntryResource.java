@@ -7,7 +7,6 @@ import com.binside.repository.EntryRepository;
 import com.binside.web.rest.errors.BadRequestAlertException;
 import com.binside.web.rest.util.HeaderUtil;
 import com.binside.web.rest.util.PaginationUtil;
-import io.swagger.annotations.ApiParam;
 import io.github.jhipster.web.util.ResponseUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -92,7 +91,7 @@ public class EntryResource {
      */
     @GetMapping("/entries")
     @Timed
-    public ResponseEntity<List<Entry>> getAllEntries(@ApiParam Pageable pageable) {
+    public ResponseEntity<List<Entry>> getAllEntries(Pageable pageable) {
         log.debug("REST request to get a page of Entries");
         Page<Entry> page = entryRepository.findAll(pageable);
         HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, "/api/entries");
