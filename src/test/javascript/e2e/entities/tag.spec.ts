@@ -1,15 +1,11 @@
-import { browser, element, by, $ } from 'protractor';
+import { browser, element, by } from 'protractor';
 import { NavBarPage } from './../page-objects/jhi-page-objects';
-const path = require('path');
 
 describe('Tag e2e test', () => {
 
     let navBarPage: NavBarPage;
     let tagDialogPage: TagDialogPage;
     let tagComponentsPage: TagComponentsPage;
-    const fileToUpload = '../../../../main/webapp/content/images/logo-jhipster.png';
-    const absolutePath = path.resolve(__dirname, fileToUpload);
-    
 
     beforeAll(() => {
         browser.get('/');
@@ -22,14 +18,16 @@ describe('Tag e2e test', () => {
     it('should load Tags', () => {
         navBarPage.goToEntity('tag');
         tagComponentsPage = new TagComponentsPage();
-        expect(tagComponentsPage.getTitle()).toMatch(/blogwagnerApp.tag.home.title/);
+        expect(tagComponentsPage.getTitle())
+            .toMatch(/blogwagnerApp.tag.home.title/);
 
     });
 
     it('should load create Tag dialog', () => {
         tagComponentsPage.clickOnCreateButton();
         tagDialogPage = new TagDialogPage();
-        expect(tagDialogPage.getModalTitle()).toMatch(/blogwagnerApp.tag.home.createOrEditLabel/);
+        expect(tagDialogPage.getModalTitle())
+            .toMatch(/blogwagnerApp.tag.home.createOrEditLabel/);
         tagDialogPage.close();
     });
 
@@ -39,7 +37,7 @@ describe('Tag e2e test', () => {
         expect(tagDialogPage.getNameInput()).toMatch('name');
         tagDialogPage.save();
         expect(tagDialogPage.getSaveButton().isPresent()).toBeFalsy();
-    }); 
+    });
 
     afterAll(() => {
         navBarPage.autoSignOut();
@@ -69,11 +67,11 @@ export class TagDialogPage {
         return this.modalTitle.getAttribute('jhiTranslate');
     }
 
-    setNameInput = function (name) {
+    setNameInput = function(name) {
         this.nameInput.sendKeys(name);
     }
 
-    getNameInput = function () {
+    getNameInput = function() {
         return this.nameInput.getAttribute('value');
     }
 

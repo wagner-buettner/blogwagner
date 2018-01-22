@@ -2,14 +2,14 @@ import './vendor.ts';
 
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-import { Ng2Webstorage } from 'ng2-webstorage';
+import { Ng2Webstorage } from 'ngx-webstorage';
 
 import { BlogwagnerSharedModule, UserRouteAccessService } from './shared';
+import { BlogwagnerAppRoutingModule} from './app-routing.module';
 import { BlogwagnerHomeModule } from './home/home.module';
 import { BlogwagnerAdminModule } from './admin/admin.module';
 import { BlogwagnerAccountModule } from './account/account.module';
 import { BlogwagnerEntityModule } from './entities/entity.module';
-
 import { customHttpProvider } from './blocks/interceptor/http.provider';
 import { PaginationConfig } from './blocks/config/uib-pagination.config';
 
@@ -17,7 +17,6 @@ import { PaginationConfig } from './blocks/config/uib-pagination.config';
 
 import {
     JhiMainComponent,
-    LayoutRoutingModule,
     NavbarComponent,
     FooterComponent,
     ProfileService,
@@ -29,7 +28,7 @@ import {
 @NgModule({
     imports: [
         BrowserModule,
-        LayoutRoutingModule,
+        BlogwagnerAppRoutingModule,
         Ng2Webstorage.forRoot({ prefix: 'jhi', separator: '-'}),
         BlogwagnerSharedModule,
         BlogwagnerHomeModule,

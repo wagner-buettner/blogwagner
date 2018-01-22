@@ -188,6 +188,8 @@ public class TagResourceIntTest {
 
         // Update the tag
         Tag updatedTag = tagRepository.findOne(tag.getId());
+        // Disconnect from session so that the updates on updatedTag are not directly saved in db
+        em.detach(updatedTag);
         updatedTag
             .name(UPDATED_NAME);
 

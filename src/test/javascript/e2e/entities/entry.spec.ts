@@ -1,15 +1,11 @@
-import { browser, element, by, $ } from 'protractor';
+import { browser, element, by } from 'protractor';
 import { NavBarPage } from './../page-objects/jhi-page-objects';
-const path = require('path');
 
 describe('Entry e2e test', () => {
 
     let navBarPage: NavBarPage;
     let entryDialogPage: EntryDialogPage;
     let entryComponentsPage: EntryComponentsPage;
-    const fileToUpload = '../../../../main/webapp/content/images/logo-jhipster.png';
-    const absolutePath = path.resolve(__dirname, fileToUpload);
-    
 
     beforeAll(() => {
         browser.get('/');
@@ -22,14 +18,16 @@ describe('Entry e2e test', () => {
     it('should load Entries', () => {
         navBarPage.goToEntity('entry');
         entryComponentsPage = new EntryComponentsPage();
-        expect(entryComponentsPage.getTitle()).toMatch(/blogwagnerApp.entry.home.title/);
+        expect(entryComponentsPage.getTitle())
+            .toMatch(/blogwagnerApp.entry.home.title/);
 
     });
 
     it('should load create Entry dialog', () => {
         entryComponentsPage.clickOnCreateButton();
         entryDialogPage = new EntryDialogPage();
-        expect(entryDialogPage.getModalTitle()).toMatch(/blogwagnerApp.entry.home.createOrEditLabel/);
+        expect(entryDialogPage.getModalTitle())
+            .toMatch(/blogwagnerApp.entry.home.createOrEditLabel/);
         entryDialogPage.close();
     });
 
@@ -45,7 +43,7 @@ describe('Entry e2e test', () => {
         // entryDialogPage.tagSelectLastOption();
         entryDialogPage.save();
         expect(entryDialogPage.getSaveButton().isPresent()).toBeFalsy();
-    }); 
+    });
 
     afterAll(() => {
         navBarPage.autoSignOut();
@@ -79,59 +77,59 @@ export class EntryDialogPage {
         return this.modalTitle.getAttribute('jhiTranslate');
     }
 
-    setTitleInput = function (title) {
+    setTitleInput = function(title) {
         this.titleInput.sendKeys(title);
     }
 
-    getTitleInput = function () {
+    getTitleInput = function() {
         return this.titleInput.getAttribute('value');
     }
 
-    setContentInput = function (content) {
+    setContentInput = function(content) {
         this.contentInput.sendKeys(content);
     }
 
-    getContentInput = function () {
+    getContentInput = function() {
         return this.contentInput.getAttribute('value');
     }
 
-    setDateInput = function (date) {
+    setDateInput = function(date) {
         this.dateInput.sendKeys(date);
     }
 
-    getDateInput = function () {
+    getDateInput = function() {
         return this.dateInput.getAttribute('value');
     }
 
-    blogSelectLastOption = function () {
+    blogSelectLastOption = function() {
         this.blogSelect.all(by.tagName('option')).last().click();
     }
 
-    blogSelectOption = function (option) {
+    blogSelectOption = function(option) {
         this.blogSelect.sendKeys(option);
     }
 
-    getBlogSelect = function () {
+    getBlogSelect = function() {
         return this.blogSelect;
     }
 
-    getBlogSelectedOption = function () {
+    getBlogSelectedOption = function() {
         return this.blogSelect.element(by.css('option:checked')).getText();
     }
 
-    tagSelectLastOption = function () {
+    tagSelectLastOption = function() {
         this.tagSelect.all(by.tagName('option')).last().click();
     }
 
-    tagSelectOption = function (option) {
+    tagSelectOption = function(option) {
         this.tagSelect.sendKeys(option);
     }
 
-    getTagSelect = function () {
+    getTagSelect = function() {
         return this.tagSelect;
     }
 
-    getTagSelectedOption = function () {
+    getTagSelectedOption = function() {
         return this.tagSelect.element(by.css('option:checked')).getText();
     }
 
