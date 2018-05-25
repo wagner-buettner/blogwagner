@@ -1,0 +1,46 @@
+{
+  "generator-jhipster": {
+    "promptValues": {
+      "packageName": "com.binside",
+      "nativeLanguage": "pt-br"
+    },
+    "jhipsterVersion": "4.14.1",
+    "baseName": "blogwagner",
+    "packageName": "com.binside",
+    "packageFolder": "com/binside",
+    "serverPort": "8080",
+    "authenticationType": "jwt",
+    "hibernateCache": "ehcache",
+    "clusteredHttpSession": false,
+    "websocket": false,
+    "databaseType": "sql",
+    "devDatabaseType": "h2Disk",
+    "prodDatabaseType": "postgresql",
+    "searchEngine": false,
+    "messageBroker": false,
+    "serviceDiscoveryType": false,
+    "buildTool": "maven",
+    "enableSocialSignIn": false,
+    "jwtSecretKey": "9879f2adfc7e3a71c421015c3941635ed7cc7d1a",
+    "clientFramework": "angularX",
+    "useSass": true,
+    "clientPackageManager": "yarn",
+    "applicationType": "monolith",
+    "testFrameworks": [
+      "gatling",
+      "protractor"
+    ],
+    "jhiPrefix": "jhi",
+    "enableTranslation": true,
+    "nativeLanguage": "pt-br",
+    "languages": [
+      "pt-br",
+      "en",
+      "es"
+    ],
+    "herokuAppName": "blogwagner",
+    "cacheProvider": "ehcache",
+    "enableHibernateCache": true,
+    "herokuDeployType": "git"
+  }
+}
