@@ -1,51 +1,24 @@
 import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { RouterModule } from '@angular/router';
 
-import { BlogwagnerSharedModule } from '../../shared';
-import { BlogwagnerAdminModule } from '../../admin/admin.module';
+import { BlogwagnerSharedModule } from 'app/shared';
+import { BlogwagnerAdminModule } from 'app/admin/admin.module';
 import {
-    BlogService,
-    BlogPopupService,
     BlogComponent,
     BlogDetailComponent,
-    BlogDialogComponent,
-    BlogPopupComponent,
+    BlogUpdateComponent,
     BlogDeletePopupComponent,
     BlogDeleteDialogComponent,
     blogRoute,
-    blogPopupRoute,
+    blogPopupRoute
 } from './';
 
-const ENTITY_STATES = [
-    ...blogRoute,
-    ...blogPopupRoute,
-];
+const ENTITY_STATES = [...blogRoute, ...blogPopupRoute];
 
 @NgModule({
-    imports: [
-        BlogwagnerSharedModule,
-        BlogwagnerAdminModule,
-        RouterModule.forChild(ENTITY_STATES)
-    ],
-    declarations: [
-        BlogComponent,
-        BlogDetailComponent,
-        BlogDialogComponent,
-        BlogDeleteDialogComponent,
-        BlogPopupComponent,
-        BlogDeletePopupComponent,
-    ],
-    entryComponents: [
-        BlogComponent,
-        BlogDialogComponent,
-        BlogPopupComponent,
-        BlogDeleteDialogComponent,
-        BlogDeletePopupComponent,
-    ],
-    providers: [
-        BlogService,
-        BlogPopupService,
-    ],
+    imports: [BlogwagnerSharedModule, BlogwagnerAdminModule, RouterModule.forChild(ENTITY_STATES)],
+    declarations: [BlogComponent, BlogDetailComponent, BlogUpdateComponent, BlogDeleteDialogComponent, BlogDeletePopupComponent],
+    entryComponents: [BlogComponent, BlogUpdateComponent, BlogDeleteDialogComponent, BlogDeletePopupComponent],
     schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
 export class BlogwagnerBlogModule {}

@@ -2,7 +2,6 @@ package com.binside.web.rest;
 
 import com.codahale.metrics.annotation.Timed;
 import com.binside.domain.Entry;
-
 import com.binside.repository.EntryRepository;
 import com.binside.web.rest.errors.BadRequestAlertException;
 import com.binside.web.rest.util.HeaderUtil;
@@ -75,7 +74,7 @@ public class EntryResource {
     public ResponseEntity<Entry> updateEntry(@Valid @RequestBody Entry entry) throws URISyntaxException {
         log.debug("REST request to update Entry : {}", entry);
         if (entry.getId() == null) {
-            return createEntry(entry);
+            throw new BadRequestAlertException("Invalid id", ENTITY_NAME, "idnull");
         }
         Entry result = entryRepository.save(entry);
         return ResponseEntity.ok()
@@ -87,14 +86,20 @@ public class EntryResource {
      * GET  /entries : get all the entries.
      *
      * @param pageable the pagination information
+     * @param eagerload flag to eager load entities from relationships (This is applicable for many-to-many)
      * @return the ResponseEntity with status 200 (OK) and the list of entries in body
      */
     @GetMapping("/entries")
     @Timed
-    public ResponseEntity<List<Entry>> getAllEntries(Pageable pageable) {
+    public ResponseEntity<List<Entry>> getAllEntries(Pageable pageable, @RequestParam(required = false, defaultValue = "false") boolean eagerload) {
         log.debug("REST request to get a page of Entries");
-        Page<Entry> page = entryRepository.findAll(pageable);
-        HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, "/api/entries");
+        Page<Entry> page;
+        if (eagerload) {
+            page = entryRepository.findAllWithEagerRelationships(pageable);
+        } else {
+            page = entryRepository.findAll(pageable);
+        }
+        HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, String.format("/api/entries?eagerload=%b", eagerload));
         return new ResponseEntity<>(page.getContent(), headers, HttpStatus.OK);
     }
 
@@ -108,8 +113,8 @@ public class EntryResource {
     @Timed
     public ResponseEntity<Entry> getEntry(@PathVariable Long id) {
         log.debug("REST request to get Entry : {}", id);
-        Entry entry = entryRepository.findOneWithEagerRelationships(id);
-        return ResponseUtil.wrapOrNotFound(Optional.ofNullable(entry));
+        Optional<Entry> entry = entryRepository.findOneWithEagerRelationships(id);
+        return ResponseUtil.wrapOrNotFound(entry);
     }
 
     /**
@@ -122,7 +127,8 @@ public class EntryResource {
     @Timed
     public ResponseEntity<Void> deleteEntry(@PathVariable Long id) {
         log.debug("REST request to delete Entry : {}", id);
-        entryRepository.delete(id);
+
+        entryRepository.deleteById(id);
         return ResponseEntity.ok().headers(HeaderUtil.createEntityDeletionAlert(ENTITY_NAME, id.toString())).build();
     }
 }

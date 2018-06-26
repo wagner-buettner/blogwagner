@@ -2,7 +2,6 @@ package com.binside.web.rest;
 
 import com.codahale.metrics.annotation.Timed;
 import com.binside.domain.Blog;
-
 import com.binside.repository.BlogRepository;
 import com.binside.web.rest.errors.BadRequestAlertException;
 import com.binside.web.rest.util.HeaderUtil;
@@ -70,7 +69,7 @@ public class BlogResource {
     public ResponseEntity<Blog> updateBlog(@Valid @RequestBody Blog blog) throws URISyntaxException {
         log.debug("REST request to update Blog : {}", blog);
         if (blog.getId() == null) {
-            return createBlog(blog);
+            throw new BadRequestAlertException("Invalid id", ENTITY_NAME, "idnull");
         }
         Blog result = blogRepository.save(blog);
         return ResponseEntity.ok()
@@ -88,7 +87,7 @@ public class BlogResource {
     public List<Blog> getAllBlogs() {
         log.debug("REST request to get all Blogs");
         return blogRepository.findAll();
-        }
+    }
 
     /**
      * GET  /blogs/:id : get the "id" blog.
@@ -100,8 +99,8 @@ public class BlogResource {
     @Timed
     public ResponseEntity<Blog> getBlog(@PathVariable Long id) {
         log.debug("REST request to get Blog : {}", id);
-        Blog blog = blogRepository.findOne(id);
-        return ResponseUtil.wrapOrNotFound(Optional.ofNullable(blog));
+        Optional<Blog> blog = blogRepository.findById(id);
+        return ResponseUtil.wrapOrNotFound(blog);
     }
 
     /**
@@ -114,7 +113,8 @@ public class BlogResource {
     @Timed
     public ResponseEntity<Void> deleteBlog(@PathVariable Long id) {
         log.debug("REST request to delete Blog : {}", id);
-        blogRepository.delete(id);
+
+        blogRepository.deleteById(id);
         return ResponseEntity.ok().headers(HeaderUtil.createEntityDeletionAlert(ENTITY_NAME, id.toString())).build();
     }
 }

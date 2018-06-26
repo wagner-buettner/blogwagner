@@ -1,18 +1,18 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { HttpResponse, HttpErrorResponse } from '@angular/common/http';
-import { Subscription } from 'rxjs/Subscription';
+import { HttpErrorResponse, HttpResponse } from '@angular/common/http';
+import { Subscription } from 'rxjs';
 import { JhiEventManager, JhiAlertService } from 'ng-jhipster';
 
-import { Blog } from './blog.model';
+import { IBlog } from 'app/shared/model/blog.model';
+import { Principal } from 'app/core';
 import { BlogService } from './blog.service';
-import { Principal } from '../../shared';
 
 @Component({
     selector: 'jhi-blog',
     templateUrl: './blog.component.html'
 })
 export class BlogComponent implements OnInit, OnDestroy {
-blogs: Blog[];
+    blogs: IBlog[];
     currentAccount: any;
     eventSubscriber: Subscription;
 
@@ -21,20 +21,20 @@ blogs: Blog[];
         private jhiAlertService: JhiAlertService,
         private eventManager: JhiEventManager,
         private principal: Principal
-    ) {
-    }
+    ) {}
 
     loadAll() {
         this.blogService.query().subscribe(
-            (res: HttpResponse<Blog[]>) => {
+            (res: HttpResponse<IBlog[]>) => {
                 this.blogs = res.body;
             },
             (res: HttpErrorResponse) => this.onError(res.message)
         );
     }
+
     ngOnInit() {
         this.loadAll();
-        this.principal.identity().then((account) => {
+        this.principal.identity().then(account => {
             this.currentAccount = account;
         });
         this.registerChangeInBlogs();
@@ -44,14 +44,15 @@ blogs: Blog[];
         this.eventManager.destroy(this.eventSubscriber);
     }
 
-    trackId(index: number, item: Blog) {
+    trackId(index: number, item: IBlog) {
         return item.id;
     }
+
     registerChangeInBlogs() {
-        this.eventSubscriber = this.eventManager.subscribe('blogListModification', (response) => this.loadAll());
+        this.eventSubscriber = this.eventManager.subscribe('blogListModification', response => this.loadAll());
     }
 
-    private onError(error) {
-        this.jhiAlertService.error(error.message, null, null);
+    private onError(errorMessage: string) {
+        this.jhiAlertService.error(errorMessage, null, null);
     }
 }
