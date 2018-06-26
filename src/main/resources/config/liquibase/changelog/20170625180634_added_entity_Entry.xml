@@ -26,10 +26,10 @@
             </column>
 
             <column name="content" type="clob">
-                <constraints nullable="false" />
+                <constraints nullable="true" />
             </column>
 
-            <column name="jhi_date" type="timestamp">
+            <column name="jhi_date" type="datetime">
                 <constraints nullable="false" />
             </column>
 

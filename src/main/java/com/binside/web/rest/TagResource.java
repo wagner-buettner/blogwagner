@@ -2,7 +2,6 @@ package com.binside.web.rest;
 
 import com.codahale.metrics.annotation.Timed;
 import com.binside.domain.Tag;
-
 import com.binside.repository.TagRepository;
 import com.binside.web.rest.errors.BadRequestAlertException;
 import com.binside.web.rest.util.HeaderUtil;
@@ -75,7 +74,7 @@ public class TagResource {
     public ResponseEntity<Tag> updateTag(@Valid @RequestBody Tag tag) throws URISyntaxException {
         log.debug("REST request to update Tag : {}", tag);
         if (tag.getId() == null) {
-            return createTag(tag);
+            throw new BadRequestAlertException("Invalid id", ENTITY_NAME, "idnull");
         }
         Tag result = tagRepository.save(tag);
         return ResponseEntity.ok()
@@ -108,8 +107,8 @@ public class TagResource {
     @Timed
     public ResponseEntity<Tag> getTag(@PathVariable Long id) {
         log.debug("REST request to get Tag : {}", id);
-        Tag tag = tagRepository.findOne(id);
-        return ResponseUtil.wrapOrNotFound(Optional.ofNullable(tag));
+        Optional<Tag> tag = tagRepository.findById(id);
+        return ResponseUtil.wrapOrNotFound(tag);
     }
 
     /**
@@ -122,7 +121,8 @@ public class TagResource {
     @Timed
     public ResponseEntity<Void> deleteTag(@PathVariable Long id) {
         log.debug("REST request to delete Tag : {}", id);
-        tagRepository.delete(id);
+
+        tagRepository.deleteById(id);
         return ResponseEntity.ok().headers(HeaderUtil.createEntityDeletionAlert(ENTITY_NAME, id.toString())).build();
     }
 }

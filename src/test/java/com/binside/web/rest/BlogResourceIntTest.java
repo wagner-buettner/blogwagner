@@ -23,6 +23,7 @@ import org.springframework.transaction.annotation.Transactional;
 import javax.persistence.EntityManager;
 import java.util.List;
 
+
 import static com.binside.web.rest.TestUtil.createFormattingConversionService;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.hamcrest.Matchers.hasItem;
@@ -46,6 +47,7 @@ public class BlogResourceIntTest {
 
     @Autowired
     private BlogRepository blogRepository;
+
 
     @Autowired
     private MappingJackson2HttpMessageConverter jacksonMessageConverter;
@@ -180,6 +182,7 @@ public class BlogResourceIntTest {
             .andExpect(jsonPath("$.[*].name").value(hasItem(DEFAULT_NAME.toString())))
             .andExpect(jsonPath("$.[*].handle").value(hasItem(DEFAULT_HANDLE.toString())));
     }
+    
 
     @Test
     @Transactional
@@ -195,7 +198,6 @@ public class BlogResourceIntTest {
             .andExpect(jsonPath("$.name").value(DEFAULT_NAME.toString()))
             .andExpect(jsonPath("$.handle").value(DEFAULT_HANDLE.toString()));
     }
-
     @Test
     @Transactional
     public void getNonExistingBlog() throws Exception {
@@ -209,10 +211,11 @@ public class BlogResourceIntTest {
     public void updateBlog() throws Exception {
         // Initialize the database
         blogRepository.saveAndFlush(blog);
+
         int databaseSizeBeforeUpdate = blogRepository.findAll().size();
 
         // Update the blog
-        Blog updatedBlog = blogRepository.findOne(blog.getId());
+        Blog updatedBlog = blogRepository.findById(blog.getId()).get();
         // Disconnect from session so that the updates on updatedBlog are not directly saved in db
         em.detach(updatedBlog);
         updatedBlog
@@ -243,11 +246,11 @@ public class BlogResourceIntTest {
         restBlogMockMvc.perform(put("/api/blogs")
             .contentType(TestUtil.APPLICATION_JSON_UTF8)
             .content(TestUtil.convertObjectToJsonBytes(blog)))
-            .andExpect(status().isCreated());
+            .andExpect(status().isBadRequest());
 
         // Validate the Blog in the database
         List<Blog> blogList = blogRepository.findAll();
-        assertThat(blogList).hasSize(databaseSizeBeforeUpdate + 1);
+        assertThat(blogList).hasSize(databaseSizeBeforeUpdate);
     }
 
     @Test
@@ -255,6 +258,7 @@ public class BlogResourceIntTest {
     public void deleteBlog() throws Exception {
         // Initialize the database
         blogRepository.saveAndFlush(blog);
+
         int databaseSizeBeforeDelete = blogRepository.findAll().size();
 
         // Get the blog

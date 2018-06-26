@@ -1,13 +1,13 @@
 package com.binside.repository;
 
 import com.binside.domain.Blog;
+import org.springframework.data.jpa.repository.*;
 import org.springframework.stereotype.Repository;
 
-import org.springframework.data.jpa.repository.*;
 import java.util.List;
 
 /**
- * Spring Data JPA repository for the Blog entity.
+ * Spring Data  repository for the Blog entity.
  */
 @SuppressWarnings("unused")
 @Repository
