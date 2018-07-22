@@ -32,8 +32,9 @@ public class Entry implements Serializable {
     @Column(name = "title", nullable = false)
     private String title;
 
+    
     @Lob
-    @Column(name = "content")
+    @Column(name = "content", nullable = false)
     private String content;
 
     @NotNull
