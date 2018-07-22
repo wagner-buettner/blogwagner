@@ -2,7 +2,8 @@ import { Injectable } from '@angular/core';
 import { HttpResponse } from '@angular/common/http';
 import { Resolve, ActivatedRouteSnapshot, RouterStateSnapshot, Routes } from '@angular/router';
 import { UserRouteAccessService } from 'app/core';
-import { Observable } from 'rxjs';
+import { of } from 'rxjs';
+import { map } from 'rxjs/operators';
 import { Blog } from 'app/shared/model/blog.model';
 import { BlogService } from './blog.service';
 import { BlogComponent } from './blog.component';
@@ -18,9 +19,9 @@ export class BlogResolve implements Resolve<IBlog> {
     resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
         const id = route.params['id'] ? route.params['id'] : null;
         if (id) {
-            return this.service.find(id).map((blog: HttpResponse<Blog>) => blog.body);
+            return this.service.find(id).pipe(map((blog: HttpResponse<Blog>) => blog.body));
         }
-        return Observable.of(new Blog());
+        return of(new Blog());
     }
 }
 
