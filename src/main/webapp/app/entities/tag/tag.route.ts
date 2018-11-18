@@ -2,8 +2,8 @@ import { Injectable } from '@angular/core';
 import { HttpResponse } from '@angular/common/http';
 import { Resolve, ActivatedRouteSnapshot, RouterStateSnapshot, Routes } from '@angular/router';
 import { UserRouteAccessService } from 'app/core';
-import { of } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { Observable, of } from 'rxjs';
+import { filter, map } from 'rxjs/operators';
 import { Tag } from 'app/shared/model/tag.model';
 import { TagService } from './tag.service';
 import { TagComponent } from './tag.component';
@@ -16,10 +16,13 @@ import { ITag } from 'app/shared/model/tag.model';
 export class TagResolve implements Resolve<ITag> {
     constructor(private service: TagService) {}
 
-    resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
+    resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<Tag> {
         const id = route.params['id'] ? route.params['id'] : null;
         if (id) {
-            return this.service.find(id).pipe(map((tag: HttpResponse<Tag>) => tag.body));
+            return this.service.find(id).pipe(
+                filter((response: HttpResponse<Tag>) => response.ok),
+                map((tag: HttpResponse<Tag>) => tag.body)
+            );
         }
         return of(new Tag());
     }

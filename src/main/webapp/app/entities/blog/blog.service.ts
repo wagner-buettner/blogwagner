@@ -11,7 +11,7 @@ type EntityArrayResponseType = HttpResponse<IBlog[]>;
 
 @Injectable({ providedIn: 'root' })
 export class BlogService {
-    private resourceUrl = SERVER_API_URL + 'api/blogs';
+    public resourceUrl = SERVER_API_URL + 'api/blogs';
 
     constructor(private http: HttpClient) {}
 
