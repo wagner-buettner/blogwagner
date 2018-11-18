@@ -1,7 +1,6 @@
-
 {
     "blogwagnerApp": {
-        "blog" : {
+        "blog": {
             "home": {
                 "title": "Blogs",
                 "createLabel": "Criar novo Blog",

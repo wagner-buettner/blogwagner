@@ -48,7 +48,6 @@ public class BlogResourceIntTest {
     @Autowired
     private BlogRepository blogRepository;
 
-
     @Autowired
     private MappingJackson2HttpMessageConverter jacksonMessageConverter;
 
@@ -183,7 +182,6 @@ public class BlogResourceIntTest {
             .andExpect(jsonPath("$.[*].handle").value(hasItem(DEFAULT_HANDLE.toString())));
     }
     
-
     @Test
     @Transactional
     public void getBlog() throws Exception {
@@ -198,6 +196,7 @@ public class BlogResourceIntTest {
             .andExpect(jsonPath("$.name").value(DEFAULT_NAME.toString()))
             .andExpect(jsonPath("$.handle").value(DEFAULT_HANDLE.toString()));
     }
+
     @Test
     @Transactional
     public void getNonExistingBlog() throws Exception {
@@ -242,7 +241,7 @@ public class BlogResourceIntTest {
 
         // Create the Blog
 
-        // If the entity doesn't have an ID, it will be created instead of just being updated
+        // If the entity doesn't have an ID, it will throw BadRequestAlertException
         restBlogMockMvc.perform(put("/api/blogs")
             .contentType(TestUtil.APPLICATION_JSON_UTF8)
             .content(TestUtil.convertObjectToJsonBytes(blog)))

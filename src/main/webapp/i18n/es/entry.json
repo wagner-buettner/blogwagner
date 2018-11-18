@@ -1,7 +1,6 @@
-
 {
     "blogwagnerApp": {
-        "entry" : {
+        "entry": {
             "home": {
                 "title": "Entries",
                 "createLabel": "Crear nuevo Entry",

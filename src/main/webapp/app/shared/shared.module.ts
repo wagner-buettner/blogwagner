@@ -12,4 +12,10 @@ import { BlogwagnerSharedLibsModule, BlogwagnerSharedCommonModule, JhiLoginModal
     exports: [BlogwagnerSharedCommonModule, JhiLoginModalComponent, HasAnyAuthorityDirective],
     schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
-export class BlogwagnerSharedModule {}
+export class BlogwagnerSharedModule {
+    static forRoot() {
+        return {
+            ngModule: BlogwagnerSharedModule
+        };
+    }
+}

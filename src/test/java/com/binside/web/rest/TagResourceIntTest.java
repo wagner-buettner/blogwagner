@@ -45,7 +45,6 @@ public class TagResourceIntTest {
     @Autowired
     private TagRepository tagRepository;
 
-
     @Autowired
     private MappingJackson2HttpMessageConverter jacksonMessageConverter;
 
@@ -159,7 +158,6 @@ public class TagResourceIntTest {
             .andExpect(jsonPath("$.[*].name").value(hasItem(DEFAULT_NAME.toString())));
     }
     
-
     @Test
     @Transactional
     public void getTag() throws Exception {
@@ -173,6 +171,7 @@ public class TagResourceIntTest {
             .andExpect(jsonPath("$.id").value(tag.getId().intValue()))
             .andExpect(jsonPath("$.name").value(DEFAULT_NAME.toString()));
     }
+
     @Test
     @Transactional
     public void getNonExistingTag() throws Exception {
@@ -215,7 +214,7 @@ public class TagResourceIntTest {
 
         // Create the Tag
 
-        // If the entity doesn't have an ID, it will be created instead of just being updated
+        // If the entity doesn't have an ID, it will throw BadRequestAlertException
         restTagMockMvc.perform(put("/api/tags")
             .contentType(TestUtil.APPLICATION_JSON_UTF8)
             .content(TestUtil.convertObjectToJsonBytes(tag)))

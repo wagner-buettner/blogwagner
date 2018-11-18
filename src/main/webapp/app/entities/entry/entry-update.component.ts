@@ -18,7 +18,7 @@ import { TagService } from 'app/entities/tag';
     templateUrl: './entry-update.component.html'
 })
 export class EntryUpdateComponent implements OnInit {
-    private _entry: IEntry;
+    entry: IEntry;
     isSaving: boolean;
 
     blogs: IBlog[];
@@ -39,6 +39,7 @@ export class EntryUpdateComponent implements OnInit {
         this.isSaving = false;
         this.activatedRoute.data.subscribe(({ entry }) => {
             this.entry = entry;
+            this.date = this.entry.date != null ? this.entry.date.format(DATE_TIME_FORMAT) : null;
         });
         this.blogService.query().subscribe(
             (res: HttpResponse<IBlog[]>) => {
@@ -72,7 +73,7 @@ export class EntryUpdateComponent implements OnInit {
 
     save() {
         this.isSaving = true;
-        this.entry.date = moment(this.date, DATE_TIME_FORMAT);
+        this.entry.date = this.date != null ? moment(this.date, DATE_TIME_FORMAT) : null;
         if (this.entry.id !== undefined) {
             this.subscribeToSaveResponse(this.entryService.update(this.entry));
         } else {
@@ -114,13 +115,5 @@ export class EntryUpdateComponent implements OnInit {
             }
         }
         return option;
-    }
-    get entry() {
-        return this._entry;
-    }
-
-    set entry(entry: IEntry) {
-        this._entry = entry;
-        this.date = moment(entry.date).format(DATE_TIME_FORMAT);
     }
 }

@@ -61,6 +61,7 @@ public class EntryResourceIntTest {
 
     @Autowired
     private EntryRepository entryRepository;
+
     @Mock
     private EntryRepository entryRepositoryMock;
 
@@ -201,6 +202,7 @@ public class EntryResourceIntTest {
             .andExpect(jsonPath("$.[*].date").value(hasItem(sameInstant(DEFAULT_DATE))));
     }
     
+    @SuppressWarnings({"unchecked"})
     public void getAllEntriesWithEagerRelationshipsIsEnabled() throws Exception {
         EntryResource entryResource = new EntryResource(entryRepositoryMock);
         when(entryRepositoryMock.findAllWithEagerRelationships(any())).thenReturn(new PageImpl(new ArrayList<>()));
@@ -217,6 +219,7 @@ public class EntryResourceIntTest {
         verify(entryRepositoryMock, times(1)).findAllWithEagerRelationships(any());
     }
 
+    @SuppressWarnings({"unchecked"})
     public void getAllEntriesWithEagerRelationshipsIsNotEnabled() throws Exception {
         EntryResource entryResource = new EntryResource(entryRepositoryMock);
             when(entryRepositoryMock.findAllWithEagerRelationships(any())).thenReturn(new PageImpl(new ArrayList<>()));
@@ -247,6 +250,7 @@ public class EntryResourceIntTest {
             .andExpect(jsonPath("$.content").value(DEFAULT_CONTENT.toString()))
             .andExpect(jsonPath("$.date").value(sameInstant(DEFAULT_DATE)));
     }
+
     @Test
     @Transactional
     public void getNonExistingEntry() throws Exception {
@@ -293,7 +297,7 @@ public class EntryResourceIntTest {
 
         // Create the Entry
 
-        // If the entity doesn't have an ID, it will be created instead of just being updated
+        // If the entity doesn't have an ID, it will throw BadRequestAlertException
         restEntryMockMvc.perform(put("/api/entries")
             .contentType(TestUtil.APPLICATION_JSON_UTF8)
             .content(TestUtil.convertObjectToJsonBytes(entry)))

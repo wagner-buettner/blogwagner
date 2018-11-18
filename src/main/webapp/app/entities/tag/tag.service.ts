@@ -11,7 +11,7 @@ type EntityArrayResponseType = HttpResponse<ITag[]>;
 
 @Injectable({ providedIn: 'root' })
 export class TagService {
-    private resourceUrl = SERVER_API_URL + 'api/tags';
+    public resourceUrl = SERVER_API_URL + 'api/tags';
 
     constructor(private http: HttpClient) {}
 

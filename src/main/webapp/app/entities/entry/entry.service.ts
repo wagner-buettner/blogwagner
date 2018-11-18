@@ -14,7 +14,7 @@ type EntityArrayResponseType = HttpResponse<IEntry[]>;
 
 @Injectable({ providedIn: 'root' })
 export class EntryService {
-    private resourceUrl = SERVER_API_URL + 'api/entries';
+    public resourceUrl = SERVER_API_URL + 'api/entries';
 
     constructor(private http: HttpClient) {}
 
@@ -49,22 +49,26 @@ export class EntryService {
         return this.http.delete<any>(`${this.resourceUrl}/${id}`, { observe: 'response' });
     }
 
-    private convertDateFromClient(entry: IEntry): IEntry {
+    protected convertDateFromClient(entry: IEntry): IEntry {
         const copy: IEntry = Object.assign({}, entry, {
             date: entry.date != null && entry.date.isValid() ? entry.date.toJSON() : null
         });
         return copy;
     }
 
-    private convertDateFromServer(res: EntityResponseType): EntityResponseType {
-        res.body.date = res.body.date != null ? moment(res.body.date) : null;
+    protected convertDateFromServer(res: EntityResponseType): EntityResponseType {
+        if (res.body) {
+            res.body.date = res.body.date != null ? moment(res.body.date) : null;
+        }
         return res;
     }
 
-    private convertDateArrayFromServer(res: EntityArrayResponseType): EntityArrayResponseType {
-        res.body.forEach((entry: IEntry) => {
-            entry.date = entry.date != null ? moment(entry.date) : null;
-        });
+    protected convertDateArrayFromServer(res: EntityArrayResponseType): EntityArrayResponseType {
+        if (res.body) {
+            res.body.forEach((entry: IEntry) => {
+                entry.date = entry.date != null ? moment(entry.date) : null;
+            });
+        }
         return res;
     }
 }

@@ -1,7 +1,6 @@
-
 {
     "blogwagnerApp": {
-        "tag" : {
+        "tag": {
             "home": {
                 "title": "Tags",
                 "createLabel": "Create a new Tag",
