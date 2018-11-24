@@ -21,7 +21,7 @@
     "serviceDiscoveryType": false,
     "buildTool": "maven",
     "enableSocialSignIn": false,
-    "jwtSecretKey": "9879f2adfc7e3a71c421015c3941635ed7cc7d1a",
+    "jwtSecretKey": "MWY3ZWZiNzNkOTM2MTY4YmM5YzFhNzA2NjBiNWVmMGNiMjA5NTBkZjE5MDlmMzhhYzk1Y2UxYTliOWNkMzQzNDJiMDkwOWU1NjBkNDE3NDcxODIwYjAwZjEyZDdjODhiNzI5NTM3YmZjNDc0ZmFmMmZjOGZiMmJhZTg5YTg3NTc=",
     "clientFramework": "angularX",
     "useSass": true,
     "clientPackageManager": "yarn",
