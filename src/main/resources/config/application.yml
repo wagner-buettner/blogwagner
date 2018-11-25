@@ -93,7 +93,7 @@ jhipster:
         default-include-pattern: /api/.*
         title: blogwagner API
         description: blogwagner API documentation
-        version: 0.0.1
+        version: 0.0.3
         terms-of-service-url:
         contact-name:
         contact-url:
