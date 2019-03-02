@@ -16,7 +16,7 @@
 logging:
     level:
         ROOT: INFO
-        com.binside: INFO
+        com.binside.blogwagner: INFO
         io.github.jhipster: INFO
 
 spring:
@@ -103,7 +103,7 @@ jhipster:
                 # - In the JHipster Registry (which includes a Spring Cloud Config server)
                 # - In a separate `application-prod.yml` file, in the same folder as your executable WAR file
                 # - In the `JHIPSTER_SECURITY_AUTHENTICATION_JWT_BASE64_SECRET` environment variable
-                base64-secret: MWY3ZWZiNzNkOTM2MTY4YmM5YzFhNzA2NjBiNWVmMGNiMjA5NTBkZjE5MDlmMzhhYzk1Y2UxYTliOWNkMzQzNDJiMDkwOWU1NjBkNDE3NDcxODIwYjAwZjEyZDdjODhiNzI5NTM3YmZjNDc0ZmFmMmZjOGZiMmJhZTg5YTg3NTc=
+                base64-secret: NDgwMWZmN2I2MjcyNWMyOTEzNzBhZjcwZTA0YTUwZWVkYmI0OGEyMTU4NjAyNTIwNWY4YTljNWQ4NGNjMDgxZDliOTdiN2NhZmY5ZjBmOWFmYzhlZDQyNDhhM2Y0NTVkMzVmYTVhMTg4NGM4MTUzMGQ2NDQ2NDBkMGFhYjc0NDE=
                 # Token is valid 24 hours
                 token-validity-in-seconds: 86400
                 token-validity-in-seconds-for-remember-me: 2592000

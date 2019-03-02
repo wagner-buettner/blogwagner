@@ -1,14 +1,5 @@
 {
-    "fluentMethods": true,
-    "relationships": [
-        {
-            "relationshipType": "many-to-many",
-            "relationshipName": "entry",
-            "otherEntityName": "entry",
-            "ownerSide": false,
-            "otherEntityRelationshipName": "tag"
-        }
-    ],
+    "name": "Tag",
     "fields": [
         {
             "fieldName": "name",
@@ -20,9 +11,23 @@
             "fieldValidateRulesMinlength": 2
         }
     ],
-    "changelogDate": "20170625180635",
+    "relationships": [
+        {
+            "relationshipType": "many-to-many",
+            "otherEntityName": "entry",
+            "otherEntityRelationshipName": "tag",
+            "relationshipName": "entry",
+            "otherEntityField": "id",
+            "ownerSide": false
+        }
+    ],
+    "changelogDate": "20190302124522",
     "entityTableName": "tag",
     "dto": "no",
     "pagination": "infinite-scroll",
-    "service": "no"
+    "service": "no",
+    "jpaMetamodelFiltering": false,
+    "fluentMethods": true,
+    "clientRootFolder": "",
+    "applications": "*"
 }
