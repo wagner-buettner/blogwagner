@@ -33,6 +33,8 @@
         "otherModules": [],
         "enableTranslation": true,
         "nativeLanguage": "en",
-        "languages": ["en", "de", "pt-br", "es"]
+        "languages": ["en", "de", "pt-br", "es"],
+        "herokuAppName": "blogwagner",
+        "herokuDeployType": "git"
     }
 }
