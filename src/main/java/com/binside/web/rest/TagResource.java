@@ -1,6 +1,4 @@
 package com.binside.web.rest;
-
-import com.codahale.metrics.annotation.Timed;
 import com.binside.domain.Tag;
 import com.binside.repository.TagRepository;
 import com.binside.web.rest.errors.BadRequestAlertException;
@@ -48,7 +46,6 @@ public class TagResource {
      * @throws URISyntaxException if the Location URI syntax is incorrect
      */
     @PostMapping("/tags")
-    @Timed
     public ResponseEntity<Tag> createTag(@Valid @RequestBody Tag tag) throws URISyntaxException {
         log.debug("REST request to save Tag : {}", tag);
         if (tag.getId() != null) {
@@ -70,7 +67,6 @@ public class TagResource {
      * @throws URISyntaxException if the Location URI syntax is incorrect
      */
     @PutMapping("/tags")
-    @Timed
     public ResponseEntity<Tag> updateTag(@Valid @RequestBody Tag tag) throws URISyntaxException {
         log.debug("REST request to update Tag : {}", tag);
         if (tag.getId() == null) {
@@ -89,7 +85,6 @@ public class TagResource {
      * @return the ResponseEntity with status 200 (OK) and the list of tags in body
      */
     @GetMapping("/tags")
-    @Timed
     public ResponseEntity<List<Tag>> getAllTags(Pageable pageable) {
         log.debug("REST request to get a page of Tags");
         Page<Tag> page = tagRepository.findAll(pageable);
@@ -104,7 +99,6 @@ public class TagResource {
      * @return the ResponseEntity with status 200 (OK) and with body the tag, or with status 404 (Not Found)
      */
     @GetMapping("/tags/{id}")
-    @Timed
     public ResponseEntity<Tag> getTag(@PathVariable Long id) {
         log.debug("REST request to get Tag : {}", id);
         Optional<Tag> tag = tagRepository.findById(id);
@@ -118,10 +112,8 @@ public class TagResource {
      * @return the ResponseEntity with status 200 (OK)
      */
     @DeleteMapping("/tags/{id}")
-    @Timed
     public ResponseEntity<Void> deleteTag(@PathVariable Long id) {
         log.debug("REST request to delete Tag : {}", id);
-
         tagRepository.deleteById(id);
         return ResponseEntity.ok().headers(HeaderUtil.createEntityDeletionAlert(ENTITY_NAME, id.toString())).build();
     }

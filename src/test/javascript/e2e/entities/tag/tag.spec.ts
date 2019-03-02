@@ -24,6 +24,7 @@ describe('Tag e2e test', () => {
     it('should load Tags', async () => {
         await navBarPage.goToEntity('tag');
         tagComponentsPage = new TagComponentsPage();
+        await browser.wait(ec.visibilityOf(tagComponentsPage.title), 5000);
         expect(await tagComponentsPage.getTitle()).to.eq('blogwagnerApp.tag.home.title');
     });
 

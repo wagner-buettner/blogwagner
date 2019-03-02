@@ -16,7 +16,7 @@ import { IBlog } from 'app/shared/model/blog.model';
 export class BlogResolve implements Resolve<IBlog> {
     constructor(private service: BlogService) {}
 
-    resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<Blog> {
+    resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<IBlog> {
         const id = route.params['id'] ? route.params['id'] : null;
         if (id) {
             return this.service.find(id).pipe(
@@ -30,7 +30,7 @@ export class BlogResolve implements Resolve<IBlog> {
 
 export const blogRoute: Routes = [
     {
-        path: 'blog',
+        path: '',
         component: BlogComponent,
         data: {
             authorities: ['ROLE_USER'],
@@ -39,7 +39,7 @@ export const blogRoute: Routes = [
         canActivate: [UserRouteAccessService]
     },
     {
-        path: 'blog/:id/view',
+        path: ':id/view',
         component: BlogDetailComponent,
         resolve: {
             blog: BlogResolve
@@ -51,7 +51,7 @@ export const blogRoute: Routes = [
         canActivate: [UserRouteAccessService]
     },
     {
-        path: 'blog/new',
+        path: 'new',
         component: BlogUpdateComponent,
         resolve: {
             blog: BlogResolve
@@ -63,7 +63,7 @@ export const blogRoute: Routes = [
         canActivate: [UserRouteAccessService]
     },
     {
-        path: 'blog/:id/edit',
+        path: ':id/edit',
         component: BlogUpdateComponent,
         resolve: {
             blog: BlogResolve
@@ -78,7 +78,7 @@ export const blogRoute: Routes = [
 
 export const blogPopupRoute: Routes = [
     {
-        path: 'blog/:id/delete',
+        path: ':id/delete',
         component: BlogDeletePopupComponent,
         resolve: {
             blog: BlogResolve

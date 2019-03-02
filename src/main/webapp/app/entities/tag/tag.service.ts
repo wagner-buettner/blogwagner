@@ -13,7 +13,7 @@ type EntityArrayResponseType = HttpResponse<ITag[]>;
 export class TagService {
     public resourceUrl = SERVER_API_URL + 'api/tags';
 
-    constructor(private http: HttpClient) {}
+    constructor(protected http: HttpClient) {}
 
     create(tag: ITag): Observable<EntityResponseType> {
         return this.http.post<ITag>(this.resourceUrl, tag, { observe: 'response' });

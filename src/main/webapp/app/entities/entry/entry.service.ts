@@ -16,7 +16,7 @@ type EntityArrayResponseType = HttpResponse<IEntry[]>;
 export class EntryService {
     public resourceUrl = SERVER_API_URL + 'api/entries';
 
-    constructor(private http: HttpClient) {}
+    constructor(protected http: HttpClient) {}
 
     create(entry: IEntry): Observable<EntityResponseType> {
         const copy = this.convertDateFromClient(entry);

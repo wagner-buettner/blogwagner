@@ -10,7 +10,7 @@ import { ITag } from 'app/shared/model/tag.model';
 export class TagDetailComponent implements OnInit {
     tag: ITag;
 
-    constructor(private activatedRoute: ActivatedRoute) {}
+    constructor(protected activatedRoute: ActivatedRoute) {}
 
     ngOnInit() {
         this.activatedRoute.data.subscribe(({ tag }) => {

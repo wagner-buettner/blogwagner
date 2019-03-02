@@ -14,7 +14,7 @@ import { EntryService } from './entry.service';
 export class EntryDeleteDialogComponent {
     entry: IEntry;
 
-    constructor(private entryService: EntryService, public activeModal: NgbActiveModal, private eventManager: JhiEventManager) {}
+    constructor(protected entryService: EntryService, public activeModal: NgbActiveModal, protected eventManager: JhiEventManager) {}
 
     clear() {
         this.activeModal.dismiss('cancel');
@@ -36,9 +36,9 @@ export class EntryDeleteDialogComponent {
     template: ''
 })
 export class EntryDeletePopupComponent implements OnInit, OnDestroy {
-    private ngbModalRef: NgbModalRef;
+    protected ngbModalRef: NgbModalRef;
 
-    constructor(private activatedRoute: ActivatedRoute, private router: Router, private modalService: NgbModal) {}
+    constructor(protected activatedRoute: ActivatedRoute, protected router: Router, protected modalService: NgbModal) {}
 
     ngOnInit() {
         this.activatedRoute.data.subscribe(({ entry }) => {
@@ -47,11 +47,11 @@ export class EntryDeletePopupComponent implements OnInit, OnDestroy {
                 this.ngbModalRef.componentInstance.entry = entry;
                 this.ngbModalRef.result.then(
                     result => {
-                        this.router.navigate([{ outlets: { popup: null } }], { replaceUrl: true, queryParamsHandling: 'merge' });
+                        this.router.navigate(['/entry', { outlets: { popup: null } }]);
                         this.ngbModalRef = null;
                     },
                     reason => {
-                        this.router.navigate([{ outlets: { popup: null } }], { replaceUrl: true, queryParamsHandling: 'merge' });
+                        this.router.navigate(['/entry', { outlets: { popup: null } }]);
                         this.ngbModalRef = null;
                     }
                 );

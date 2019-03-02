@@ -1,17 +1,23 @@
 import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
-
-import { BlogwagnerBlogModule } from './blog/blog.module';
-import { BlogwagnerEntryModule } from './entry/entry.module';
-import { BlogwagnerTagModule } from './tag/tag.module';
-/* jhipster-needle-add-entity-module-import - JHipster will add entity modules imports here */
+import { RouterModule } from '@angular/router';
 
 @NgModule({
-    // prettier-ignore
     imports: [
-        BlogwagnerBlogModule,
-        BlogwagnerEntryModule,
-        BlogwagnerTagModule,
-        /* jhipster-needle-add-entity-module - JHipster will add entity modules here */
+        RouterModule.forChild([
+            {
+                path: 'blog',
+                loadChildren: './blog/blog.module#BlogwagnerBlogModule'
+            },
+            {
+                path: 'entry',
+                loadChildren: './entry/entry.module#BlogwagnerEntryModule'
+            },
+            {
+                path: 'tag',
+                loadChildren: './tag/tag.module#BlogwagnerTagModule'
+            }
+            /* jhipster-needle-add-entity-route - JHipster will add entity modules routes here */
+        ])
     ],
     declarations: [],
     entryComponents: [],

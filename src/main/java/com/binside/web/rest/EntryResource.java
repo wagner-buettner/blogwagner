@@ -1,6 +1,4 @@
 package com.binside.web.rest;
-
-import com.codahale.metrics.annotation.Timed;
 import com.binside.domain.Entry;
 import com.binside.repository.EntryRepository;
 import com.binside.web.rest.errors.BadRequestAlertException;
@@ -48,7 +46,6 @@ public class EntryResource {
      * @throws URISyntaxException if the Location URI syntax is incorrect
      */
     @PostMapping("/entries")
-    @Timed
     public ResponseEntity<Entry> createEntry(@Valid @RequestBody Entry entry) throws URISyntaxException {
         log.debug("REST request to save Entry : {}", entry);
         if (entry.getId() != null) {
@@ -70,7 +67,6 @@ public class EntryResource {
      * @throws URISyntaxException if the Location URI syntax is incorrect
      */
     @PutMapping("/entries")
-    @Timed
     public ResponseEntity<Entry> updateEntry(@Valid @RequestBody Entry entry) throws URISyntaxException {
         log.debug("REST request to update Entry : {}", entry);
         if (entry.getId() == null) {
@@ -90,7 +86,6 @@ public class EntryResource {
      * @return the ResponseEntity with status 200 (OK) and the list of entries in body
      */
     @GetMapping("/entries")
-    @Timed
     public ResponseEntity<List<Entry>> getAllEntries(Pageable pageable, @RequestParam(required = false, defaultValue = "false") boolean eagerload) {
         log.debug("REST request to get a page of Entries");
         Page<Entry> page;
@@ -110,7 +105,6 @@ public class EntryResource {
      * @return the ResponseEntity with status 200 (OK) and with body the entry, or with status 404 (Not Found)
      */
     @GetMapping("/entries/{id}")
-    @Timed
     public ResponseEntity<Entry> getEntry(@PathVariable Long id) {
         log.debug("REST request to get Entry : {}", id);
         Optional<Entry> entry = entryRepository.findOneWithEagerRelationships(id);
@@ -124,10 +118,8 @@ public class EntryResource {
      * @return the ResponseEntity with status 200 (OK)
      */
     @DeleteMapping("/entries/{id}")
-    @Timed
     public ResponseEntity<Void> deleteEntry(@PathVariable Long id) {
         log.debug("REST request to delete Entry : {}", id);
-
         entryRepository.deleteById(id);
         return ResponseEntity.ok().headers(HeaderUtil.createEntityDeletionAlert(ENTITY_NAME, id.toString())).build();
     }

@@ -16,7 +16,7 @@ import { IEntry } from 'app/shared/model/entry.model';
 export class EntryResolve implements Resolve<IEntry> {
     constructor(private service: EntryService) {}
 
-    resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<Entry> {
+    resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<IEntry> {
         const id = route.params['id'] ? route.params['id'] : null;
         if (id) {
             return this.service.find(id).pipe(
@@ -30,7 +30,7 @@ export class EntryResolve implements Resolve<IEntry> {
 
 export const entryRoute: Routes = [
     {
-        path: 'entry',
+        path: '',
         component: EntryComponent,
         data: {
             authorities: ['ROLE_USER'],
@@ -39,7 +39,7 @@ export const entryRoute: Routes = [
         canActivate: [UserRouteAccessService]
     },
     {
-        path: 'entry/:id/view',
+        path: ':id/view',
         component: EntryDetailComponent,
         resolve: {
             entry: EntryResolve
@@ -51,7 +51,7 @@ export const entryRoute: Routes = [
         canActivate: [UserRouteAccessService]
     },
     {
-        path: 'entry/new',
+        path: 'new',
         component: EntryUpdateComponent,
         resolve: {
             entry: EntryResolve
@@ -63,7 +63,7 @@ export const entryRoute: Routes = [
         canActivate: [UserRouteAccessService]
     },
     {
-        path: 'entry/:id/edit',
+        path: ':id/edit',
         component: EntryUpdateComponent,
         resolve: {
             entry: EntryResolve
@@ -78,7 +78,7 @@ export const entryRoute: Routes = [
 
 export const entryPopupRoute: Routes = [
     {
-        path: 'entry/:id/delete',
+        path: ':id/delete',
         component: EntryDeletePopupComponent,
         resolve: {
             entry: EntryResolve

@@ -2,10 +2,10 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { HttpResponse, HttpErrorResponse } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { filter, map } from 'rxjs/operators';
 import * as moment from 'moment';
 import { DATE_TIME_FORMAT } from 'app/shared/constants/input.constants';
 import { JhiAlertService, JhiDataUtils } from 'ng-jhipster';
-
 import { IEntry } from 'app/shared/model/entry.model';
 import { EntryService } from './entry.service';
 import { IBlog } from 'app/shared/model/blog.model';
@@ -27,12 +27,12 @@ export class EntryUpdateComponent implements OnInit {
     date: string;
 
     constructor(
-        private dataUtils: JhiDataUtils,
-        private jhiAlertService: JhiAlertService,
-        private entryService: EntryService,
-        private blogService: BlogService,
-        private tagService: TagService,
-        private activatedRoute: ActivatedRoute
+        protected dataUtils: JhiDataUtils,
+        protected jhiAlertService: JhiAlertService,
+        protected entryService: EntryService,
+        protected blogService: BlogService,
+        protected tagService: TagService,
+        protected activatedRoute: ActivatedRoute
     ) {}
 
     ngOnInit() {
@@ -41,18 +41,20 @@ export class EntryUpdateComponent implements OnInit {
             this.entry = entry;
             this.date = this.entry.date != null ? this.entry.date.format(DATE_TIME_FORMAT) : null;
         });
-        this.blogService.query().subscribe(
-            (res: HttpResponse<IBlog[]>) => {
-                this.blogs = res.body;
-            },
-            (res: HttpErrorResponse) => this.onError(res.message)
-        );
-        this.tagService.query().subscribe(
-            (res: HttpResponse<ITag[]>) => {
-                this.tags = res.body;
-            },
-            (res: HttpErrorResponse) => this.onError(res.message)
-        );
+        this.blogService
+            .query()
+            .pipe(
+                filter((mayBeOk: HttpResponse<IBlog[]>) => mayBeOk.ok),
+                map((response: HttpResponse<IBlog[]>) => response.body)
+            )
+            .subscribe((res: IBlog[]) => (this.blogs = res), (res: HttpErrorResponse) => this.onError(res.message));
+        this.tagService
+            .query()
+            .pipe(
+                filter((mayBeOk: HttpResponse<ITag[]>) => mayBeOk.ok),
+                map((response: HttpResponse<ITag[]>) => response.body)
+            )
+            .subscribe((res: ITag[]) => (this.tags = res), (res: HttpErrorResponse) => this.onError(res.message));
     }
 
     byteSize(field) {
@@ -81,20 +83,20 @@ export class EntryUpdateComponent implements OnInit {
         }
     }
 
-    private subscribeToSaveResponse(result: Observable<HttpResponse<IEntry>>) {
+    protected subscribeToSaveResponse(result: Observable<HttpResponse<IEntry>>) {
         result.subscribe((res: HttpResponse<IEntry>) => this.onSaveSuccess(), (res: HttpErrorResponse) => this.onSaveError());
     }
 
-    private onSaveSuccess() {
+    protected onSaveSuccess() {
         this.isSaving = false;
         this.previousState();
     }
 
-    private onSaveError() {
+    protected onSaveError() {
         this.isSaving = false;
     }
 
-    private onError(errorMessage: string) {
+    protected onError(errorMessage: string) {
         this.jhiAlertService.error(errorMessage, null, null);
     }
 

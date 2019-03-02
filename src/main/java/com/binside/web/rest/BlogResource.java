@@ -1,6 +1,4 @@
 package com.binside.web.rest;
-
-import com.codahale.metrics.annotation.Timed;
 import com.binside.domain.Blog;
 import com.binside.repository.BlogRepository;
 import com.binside.web.rest.errors.BadRequestAlertException;
@@ -43,7 +41,6 @@ public class BlogResource {
      * @throws URISyntaxException if the Location URI syntax is incorrect
      */
     @PostMapping("/blogs")
-    @Timed
     public ResponseEntity<Blog> createBlog(@Valid @RequestBody Blog blog) throws URISyntaxException {
         log.debug("REST request to save Blog : {}", blog);
         if (blog.getId() != null) {
@@ -65,7 +62,6 @@ public class BlogResource {
      * @throws URISyntaxException if the Location URI syntax is incorrect
      */
     @PutMapping("/blogs")
-    @Timed
     public ResponseEntity<Blog> updateBlog(@Valid @RequestBody Blog blog) throws URISyntaxException {
         log.debug("REST request to update Blog : {}", blog);
         if (blog.getId() == null) {
@@ -83,7 +79,6 @@ public class BlogResource {
      * @return the ResponseEntity with status 200 (OK) and the list of blogs in body
      */
     @GetMapping("/blogs")
-    @Timed
     public List<Blog> getAllBlogs() {
         log.debug("REST request to get all Blogs");
         return blogRepository.findAll();
@@ -96,7 +91,6 @@ public class BlogResource {
      * @return the ResponseEntity with status 200 (OK) and with body the blog, or with status 404 (Not Found)
      */
     @GetMapping("/blogs/{id}")
-    @Timed
     public ResponseEntity<Blog> getBlog(@PathVariable Long id) {
         log.debug("REST request to get Blog : {}", id);
         Optional<Blog> blog = blogRepository.findById(id);
@@ -110,10 +104,8 @@ public class BlogResource {
      * @return the ResponseEntity with status 200 (OK)
      */
     @DeleteMapping("/blogs/{id}")
-    @Timed
     public ResponseEntity<Void> deleteBlog(@PathVariable Long id) {
         log.debug("REST request to delete Blog : {}", id);
-
         blogRepository.deleteById(id);
         return ResponseEntity.ok().headers(HeaderUtil.createEntityDeletionAlert(ENTITY_NAME, id.toString())).build();
     }

@@ -10,7 +10,7 @@ import { IBlog } from 'app/shared/model/blog.model';
 export class BlogDetailComponent implements OnInit {
     blog: IBlog;
 
-    constructor(private activatedRoute: ActivatedRoute) {}
+    constructor(protected activatedRoute: ActivatedRoute) {}
 
     ngOnInit() {
         this.activatedRoute.data.subscribe(({ blog }) => {

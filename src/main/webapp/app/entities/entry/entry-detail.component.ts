@@ -11,7 +11,7 @@ import { IEntry } from 'app/shared/model/entry.model';
 export class EntryDetailComponent implements OnInit {
     entry: IEntry;
 
-    constructor(private dataUtils: JhiDataUtils, private activatedRoute: ActivatedRoute) {}
+    constructor(protected dataUtils: JhiDataUtils, protected activatedRoute: ActivatedRoute) {}
 
     ngOnInit() {
         this.activatedRoute.data.subscribe(({ entry }) => {

@@ -14,7 +14,7 @@ import { TagService } from './tag.service';
 export class TagDeleteDialogComponent {
     tag: ITag;
 
-    constructor(private tagService: TagService, public activeModal: NgbActiveModal, private eventManager: JhiEventManager) {}
+    constructor(protected tagService: TagService, public activeModal: NgbActiveModal, protected eventManager: JhiEventManager) {}
 
     clear() {
         this.activeModal.dismiss('cancel');
@@ -36,9 +36,9 @@ export class TagDeleteDialogComponent {
     template: ''
 })
 export class TagDeletePopupComponent implements OnInit, OnDestroy {
-    private ngbModalRef: NgbModalRef;
+    protected ngbModalRef: NgbModalRef;
 
-    constructor(private activatedRoute: ActivatedRoute, private router: Router, private modalService: NgbModal) {}
+    constructor(protected activatedRoute: ActivatedRoute, protected router: Router, protected modalService: NgbModal) {}
 
     ngOnInit() {
         this.activatedRoute.data.subscribe(({ tag }) => {
@@ -47,11 +47,11 @@ export class TagDeletePopupComponent implements OnInit, OnDestroy {
                 this.ngbModalRef.componentInstance.tag = tag;
                 this.ngbModalRef.result.then(
                     result => {
-                        this.router.navigate([{ outlets: { popup: null } }], { replaceUrl: true, queryParamsHandling: 'merge' });
+                        this.router.navigate(['/tag', { outlets: { popup: null } }]);
                         this.ngbModalRef = null;
                     },
                     reason => {
-                        this.router.navigate([{ outlets: { popup: null } }], { replaceUrl: true, queryParamsHandling: 'merge' });
+                        this.router.navigate(['/tag', { outlets: { popup: null } }]);
                         this.ngbModalRef = null;
                     }
                 );

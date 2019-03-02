@@ -1,8 +1,9 @@
 import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { RouterModule } from '@angular/router';
+import { JhiLanguageService } from 'ng-jhipster';
+import { JhiLanguageHelper } from 'app/core';
 
 import { BlogwagnerSharedModule } from 'app/shared';
-import { BlogwagnerAdminModule } from 'app/admin/admin.module';
 import {
     BlogComponent,
     BlogDetailComponent,
@@ -16,9 +17,18 @@ import {
 const ENTITY_STATES = [...blogRoute, ...blogPopupRoute];
 
 @NgModule({
-    imports: [BlogwagnerSharedModule, BlogwagnerAdminModule, RouterModule.forChild(ENTITY_STATES)],
+    imports: [BlogwagnerSharedModule, RouterModule.forChild(ENTITY_STATES)],
     declarations: [BlogComponent, BlogDetailComponent, BlogUpdateComponent, BlogDeleteDialogComponent, BlogDeletePopupComponent],
     entryComponents: [BlogComponent, BlogUpdateComponent, BlogDeleteDialogComponent, BlogDeletePopupComponent],
+    providers: [{ provide: JhiLanguageService, useClass: JhiLanguageService }],
     schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
-export class BlogwagnerBlogModule {}
+export class BlogwagnerBlogModule {
+    constructor(private languageService: JhiLanguageService, private languageHelper: JhiLanguageHelper) {
+        this.languageHelper.language.subscribe((languageKey: string) => {
+            if (languageKey !== undefined) {
+                this.languageService.changeLanguage(languageKey);
+            }
+        });
+    }
+}

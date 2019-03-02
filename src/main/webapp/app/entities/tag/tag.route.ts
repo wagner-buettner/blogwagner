@@ -16,7 +16,7 @@ import { ITag } from 'app/shared/model/tag.model';
 export class TagResolve implements Resolve<ITag> {
     constructor(private service: TagService) {}
 
-    resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<Tag> {
+    resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<ITag> {
         const id = route.params['id'] ? route.params['id'] : null;
         if (id) {
             return this.service.find(id).pipe(
@@ -30,7 +30,7 @@ export class TagResolve implements Resolve<ITag> {
 
 export const tagRoute: Routes = [
     {
-        path: 'tag',
+        path: '',
         component: TagComponent,
         data: {
             authorities: ['ROLE_USER'],
@@ -39,7 +39,7 @@ export const tagRoute: Routes = [
         canActivate: [UserRouteAccessService]
     },
     {
-        path: 'tag/:id/view',
+        path: ':id/view',
         component: TagDetailComponent,
         resolve: {
             tag: TagResolve
@@ -51,7 +51,7 @@ export const tagRoute: Routes = [
         canActivate: [UserRouteAccessService]
     },
     {
-        path: 'tag/new',
+        path: 'new',
         component: TagUpdateComponent,
         resolve: {
             tag: TagResolve
@@ -63,7 +63,7 @@ export const tagRoute: Routes = [
         canActivate: [UserRouteAccessService]
     },
     {
-        path: 'tag/:id/edit',
+        path: ':id/edit',
         component: TagUpdateComponent,
         resolve: {
             tag: TagResolve
@@ -78,7 +78,7 @@ export const tagRoute: Routes = [
 
 export const tagPopupRoute: Routes = [
     {
-        path: 'tag/:id/delete',
+        path: ':id/delete',
         component: TagDeletePopupComponent,
         resolve: {
             tag: TagResolve

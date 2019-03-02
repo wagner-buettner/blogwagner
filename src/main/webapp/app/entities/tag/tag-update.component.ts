@@ -2,8 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { HttpResponse, HttpErrorResponse } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { filter, map } from 'rxjs/operators';
 import { JhiAlertService } from 'ng-jhipster';
-
 import { ITag } from 'app/shared/model/tag.model';
 import { TagService } from './tag.service';
 import { IEntry } from 'app/shared/model/entry.model';
@@ -20,10 +20,10 @@ export class TagUpdateComponent implements OnInit {
     entries: IEntry[];
 
     constructor(
-        private jhiAlertService: JhiAlertService,
-        private tagService: TagService,
-        private entryService: EntryService,
-        private activatedRoute: ActivatedRoute
+        protected jhiAlertService: JhiAlertService,
+        protected tagService: TagService,
+        protected entryService: EntryService,
+        protected activatedRoute: ActivatedRoute
     ) {}
 
     ngOnInit() {
@@ -31,12 +31,13 @@ export class TagUpdateComponent implements OnInit {
         this.activatedRoute.data.subscribe(({ tag }) => {
             this.tag = tag;
         });
-        this.entryService.query().subscribe(
-            (res: HttpResponse<IEntry[]>) => {
-                this.entries = res.body;
-            },
-            (res: HttpErrorResponse) => this.onError(res.message)
-        );
+        this.entryService
+            .query()
+            .pipe(
+                filter((mayBeOk: HttpResponse<IEntry[]>) => mayBeOk.ok),
+                map((response: HttpResponse<IEntry[]>) => response.body)
+            )
+            .subscribe((res: IEntry[]) => (this.entries = res), (res: HttpErrorResponse) => this.onError(res.message));
     }
 
     previousState() {
@@ -52,20 +53,20 @@ export class TagUpdateComponent implements OnInit {
         }
     }
 
-    private subscribeToSaveResponse(result: Observable<HttpResponse<ITag>>) {
+    protected subscribeToSaveResponse(result: Observable<HttpResponse<ITag>>) {
         result.subscribe((res: HttpResponse<ITag>) => this.onSaveSuccess(), (res: HttpErrorResponse) => this.onSaveError());
     }
 
-    private onSaveSuccess() {
+    protected onSaveSuccess() {
         this.isSaving = false;
         this.previousState();
     }
 
-    private onSaveError() {
+    protected onSaveError() {
         this.isSaving = false;
     }
 
-    private onError(errorMessage: string) {
+    protected onError(errorMessage: string) {
         this.jhiAlertService.error(errorMessage, null, null);
     }
 
