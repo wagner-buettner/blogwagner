@@ -1,34 +1,13 @@
-import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
-import { RouterModule } from '@angular/router';
-import { JhiLanguageService } from 'ng-jhipster';
-import { JhiLanguageHelper } from 'app/core';
-
-import { BlogwagnerSharedModule } from 'app/shared';
-import {
-    BlogComponent,
-    BlogDetailComponent,
-    BlogUpdateComponent,
-    BlogDeletePopupComponent,
-    BlogDeleteDialogComponent,
-    blogRoute,
-    blogPopupRoute
-} from './';
-
-const ENTITY_STATES = [...blogRoute, ...blogPopupRoute];
+import { NgModule } from '@angular/core';
+import { SharedModule } from 'app/shared/shared.module';
+import { BlogComponent } from './list/blog.component';
+import { BlogDetailComponent } from './detail/blog-detail.component';
+import { BlogUpdateComponent } from './update/blog-update.component';
+import { BlogDeleteDialogComponent } from './delete/blog-delete-dialog.component';
+import { BlogRoutingModule } from './route/blog-routing.module';
 
 @NgModule({
-    imports: [BlogwagnerSharedModule, RouterModule.forChild(ENTITY_STATES)],
-    declarations: [BlogComponent, BlogDetailComponent, BlogUpdateComponent, BlogDeleteDialogComponent, BlogDeletePopupComponent],
-    entryComponents: [BlogComponent, BlogUpdateComponent, BlogDeleteDialogComponent, BlogDeletePopupComponent],
-    providers: [{ provide: JhiLanguageService, useClass: JhiLanguageService }],
-    schemas: [CUSTOM_ELEMENTS_SCHEMA]
+  imports: [SharedModule, BlogRoutingModule],
+  declarations: [BlogComponent, BlogDetailComponent, BlogUpdateComponent, BlogDeleteDialogComponent],
 })
-export class BlogwagnerBlogModule {
-    constructor(private languageService: JhiLanguageService, private languageHelper: JhiLanguageHelper) {
-        this.languageHelper.language.subscribe((languageKey: string) => {
-            if (languageKey !== undefined) {
-                this.languageService.changeLanguage(languageKey);
-            }
-        });
-    }
-}
+export class BlogModule {}

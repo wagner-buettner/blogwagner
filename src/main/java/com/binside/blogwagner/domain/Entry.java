@@ -1,61 +1,65 @@
 package com.binside.blogwagner.domain;
 
-
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import org.hibernate.annotations.Cache;
-import org.hibernate.annotations.CacheConcurrencyStrategy;
-
-import javax.persistence.*;
-import javax.validation.constraints.*;
-
 import java.io.Serializable;
 import java.time.Instant;
 import java.util.HashSet;
 import java.util.Set;
-import java.util.Objects;
+import javax.persistence.*;
+import javax.validation.constraints.*;
+import org.hibernate.annotations.Cache;
+import org.hibernate.annotations.CacheConcurrencyStrategy;
+import org.hibernate.annotations.Type;
 
 /**
  * A Entry.
  */
 @Entity
 @Table(name = "entry")
-@Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
+@Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
+@SuppressWarnings("common-java:DuplicatedBlocks")
 public class Entry implements Serializable {
 
     private static final long serialVersionUID = 1L;
-    
+
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "sequenceGenerator")
     @SequenceGenerator(name = "sequenceGenerator")
+    @Column(name = "id")
     private Long id;
 
     @NotNull
     @Column(name = "title", nullable = false)
     private String title;
 
-    
     @Lob
+    @Type(type = "org.hibernate.type.TextType")
     @Column(name = "content", nullable = false)
     private String content;
 
     @NotNull
-    @Column(name = "jhi_date", nullable = false)
+    @Column(name = "date", nullable = false)
     private Instant date;
 
     @ManyToOne
-    @JsonIgnoreProperties("entries")
+    @JsonIgnoreProperties(value = { "user" }, allowSetters = true)
     private Blog blog;
 
     @ManyToMany
-    @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
-    @JoinTable(name = "entry_tag",
-               joinColumns = @JoinColumn(name = "entry_id", referencedColumnName = "id"),
-               inverseJoinColumns = @JoinColumn(name = "tag_id", referencedColumnName = "id"))
+    @JoinTable(name = "rel_entry__tag", joinColumns = @JoinColumn(name = "entry_id"), inverseJoinColumns = @JoinColumn(name = "tag_id"))
+    @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
+    @JsonIgnoreProperties(value = { "entries" }, allowSetters = true)
     private Set<Tag> tags = new HashSet<>();
 
-    // jhipster-needle-entity-add-field - JHipster will add fields here, do not remove
+    // jhipster-needle-entity-add-field - JHipster will add fields here
+
     public Long getId() {
-        return id;
+        return this.id;
+    }
+
+    public Entry id(Long id) {
+        this.setId(id);
+        return this;
     }
 
     public void setId(Long id) {
@@ -63,11 +67,11 @@ public class Entry implements Serializable {
     }
 
     public String getTitle() {
-        return title;
+        return this.title;
     }
 
     public Entry title(String title) {
-        this.title = title;
+        this.setTitle(title);
         return this;
     }
 
@@ -76,11 +80,11 @@ public class Entry implements Serializable {
     }
 
     public String getContent() {
-        return content;
+        return this.content;
     }
 
     public Entry content(String content) {
-        this.content = content;
+        this.setContent(content);
         return this;
     }
 
@@ -89,11 +93,11 @@ public class Entry implements Serializable {
     }
 
     public Instant getDate() {
-        return date;
+        return this.date;
     }
 
     public Entry date(Instant date) {
-        this.date = date;
+        this.setDate(date);
         return this;
     }
 
@@ -102,24 +106,28 @@ public class Entry implements Serializable {
     }
 
     public Blog getBlog() {
-        return blog;
-    }
-
-    public Entry blog(Blog blog) {
-        this.blog = blog;
-        return this;
+        return this.blog;
     }
 
     public void setBlog(Blog blog) {
         this.blog = blog;
     }
 
+    public Entry blog(Blog blog) {
+        this.setBlog(blog);
+        return this;
+    }
+
     public Set<Tag> getTags() {
-        return tags;
+        return this.tags;
+    }
+
+    public void setTags(Set<Tag> tags) {
+        this.tags = tags;
     }
 
     public Entry tags(Set<Tag> tags) {
-        this.tags = tags;
+        this.setTags(tags);
         return this;
     }
 
@@ -135,31 +143,26 @@ public class Entry implements Serializable {
         return this;
     }
 
-    public void setTags(Set<Tag> tags) {
-        this.tags = tags;
-    }
-    // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here, do not remove
+    // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here
 
     @Override
     public boolean equals(Object o) {
         if (this == o) {
             return true;
         }
-        if (o == null || getClass() != o.getClass()) {
+        if (!(o instanceof Entry)) {
             return false;
         }
-        Entry entry = (Entry) o;
-        if (entry.getId() == null || getId() == null) {
-            return false;
-        }
-        return Objects.equals(getId(), entry.getId());
+        return id != null && id.equals(((Entry) o).id);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hashCode(getId());
+        // see https://vladmihalcea.com/how-to-implement-equals-and-hashcode-using-the-jpa-entity-identifier/
+        return getClass().hashCode();
     }
 
+    // prettier-ignore
     @Override
     public String toString() {
         return "Entry{" +
