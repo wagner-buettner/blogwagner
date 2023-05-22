@@ -1,29 +1,26 @@
 package com.binside.blogwagner.domain;
 
-
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import org.hibernate.annotations.Cache;
-import org.hibernate.annotations.CacheConcurrencyStrategy;
-
+import java.io.Serializable;
 import javax.persistence.*;
 import javax.validation.constraints.*;
-
-import java.io.Serializable;
-import java.util.Objects;
+import org.hibernate.annotations.Cache;
+import org.hibernate.annotations.CacheConcurrencyStrategy;
 
 /**
  * A Blog.
  */
 @Entity
 @Table(name = "blog")
-@Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
+@Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
+@SuppressWarnings("common-java:DuplicatedBlocks")
 public class Blog implements Serializable {
 
     private static final long serialVersionUID = 1L;
-    
+
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "sequenceGenerator")
     @SequenceGenerator(name = "sequenceGenerator")
+    @Column(name = "id")
     private Long id;
 
     @NotNull
@@ -37,12 +34,17 @@ public class Blog implements Serializable {
     private String handle;
 
     @ManyToOne
-    @JsonIgnoreProperties("blogs")
     private User user;
 
-    // jhipster-needle-entity-add-field - JHipster will add fields here, do not remove
+    // jhipster-needle-entity-add-field - JHipster will add fields here
+
     public Long getId() {
-        return id;
+        return this.id;
+    }
+
+    public Blog id(Long id) {
+        this.setId(id);
+        return this;
     }
 
     public void setId(Long id) {
@@ -50,11 +52,11 @@ public class Blog implements Serializable {
     }
 
     public String getName() {
-        return name;
+        return this.name;
     }
 
     public Blog name(String name) {
-        this.name = name;
+        this.setName(name);
         return this;
     }
 
@@ -63,11 +65,11 @@ public class Blog implements Serializable {
     }
 
     public String getHandle() {
-        return handle;
+        return this.handle;
     }
 
     public Blog handle(String handle) {
-        this.handle = handle;
+        this.setHandle(handle);
         return this;
     }
 
@@ -76,39 +78,38 @@ public class Blog implements Serializable {
     }
 
     public User getUser() {
-        return user;
-    }
-
-    public Blog user(User user) {
-        this.user = user;
-        return this;
+        return this.user;
     }
 
     public void setUser(User user) {
         this.user = user;
     }
-    // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here, do not remove
+
+    public Blog user(User user) {
+        this.setUser(user);
+        return this;
+    }
+
+    // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here
 
     @Override
     public boolean equals(Object o) {
         if (this == o) {
             return true;
         }
-        if (o == null || getClass() != o.getClass()) {
+        if (!(o instanceof Blog)) {
             return false;
         }
-        Blog blog = (Blog) o;
-        if (blog.getId() == null || getId() == null) {
-            return false;
-        }
-        return Objects.equals(getId(), blog.getId());
+        return id != null && id.equals(((Blog) o).id);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hashCode(getId());
+        // see https://vladmihalcea.com/how-to-implement-equals-and-hashcode-using-the-jpa-entity-identifier/
+        return getClass().hashCode();
     }
 
+    // prettier-ignore
     @Override
     public String toString() {
         return "Blog{" +
