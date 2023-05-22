@@ -1,0 +1,47 @@
+{
+  "generator-jhipster": {
+    "promptValues": {
+      "packageName": "com.binside.blogwagner",
+      "nativeLanguage": "en"
+    },
+    "jhipsterVersion": "5.8.2",
+    "applicationType": "monolith",
+    "baseName": "blogwagner",
+    "packageName": "com.binside.blogwagner",
+    "packageFolder": "com/binside/blogwagner",
+    "serverPort": "8080",
+    "authenticationType": "jwt",
+    "cacheProvider": "ehcache",
+    "enableHibernateCache": true,
+    "websocket": false,
+    "databaseType": "sql",
+    "devDatabaseType": "h2Disk",
+    "prodDatabaseType": "postgresql",
+    "searchEngine": false,
+    "messageBroker": false,
+    "serviceDiscoveryType": false,
+    "buildTool": "gradle",
+    "enableSwaggerCodegen": false,
+    "jwtSecretKey": "NDgwMWZmN2I2MjcyNWMyOTEzNzBhZjcwZTA0YTUwZWVkYmI0OGEyMTU4NjAyNTIwNWY4YTljNWQ4NGNjMDgxZDliOTdiN2NhZmY5ZjBmOWFmYzhlZDQyNDhhM2Y0NTVkMzVmYTVhMTg4NGM4MTUzMGQ2NDQ2NDBkMGFhYjc0NDE=",
+    "clientFramework": "angularX",
+    "useSass": true,
+    "clientPackageManager": "npm",
+    "testFrameworks": [
+      "gatling"
+    ],
+    "jhiPrefix": "jhi",
+    "entitySuffix": "",
+    "dtoSuffix": "DTO",
+    "otherModules": [],
+    "enableTranslation": true,
+    "nativeLanguage": "en",
+    "languages": [
+      "en",
+      "de",
+      "pt-br",
+      "es"
+    ],
+    "herokuAppName": "blogwagner",
+    "herokuDeployType": "git"
+  }
+}
